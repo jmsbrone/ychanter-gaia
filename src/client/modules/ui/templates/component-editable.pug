@@ -1,0 +1,41 @@
+include ./component-base.pug
+include ./icons.pug
+
+mixin wrapper(cols="12")
+    +wrapper-base("{ 'edit-border-enabled': $store.state.editor.edit_border_on }",cols)&attributes(attributes)
+        if block
+            block
+
+mixin drop-zone(condition, drop_action)
+    v-col.justify-center.row.flex-row.ma-auto(
+        v-if=condition,
+        no-gutters,
+        cols="12",
+    )
+        div.primary.darken-3.rounded-lg.py-1.px-2.elevation-4(
+            @drop=drop_action,
+            @dragover.prevent,
+            @dragenter.prevent
+        ) Drop here
+            +icon("drop-zone")
+
+mixin drop-zone-after()
+    +drop-zone("child_editor_block.name && drop_zones_on", "componentBlockDrop($event, editor_block.id, child_editor_block.id)")
+
+mixin drop-zone-before()
+    +drop-zone("drop_zones_on", "componentBlockDrop($event, editor_block.id, null)")
+
+mixin editable-component-list()
+    slot(name="controls")
+    +drop-zone-before
+    template(v-for="(child_editor_block, index) in editor_block.children" v-if="child_editor_block")
+        ComponentBlockEditable.section-block.d-flex.pa-0(
+            draggable,
+            @dragstart.native="componentBlockStartDragging($event, child_editor_block.id)"
+            @dragend.native="resetDrag($event, child_editor_block)"
+            :editor_block="child_editor_block",
+            :drop_zones_on="drop_zones_on",
+            :key="child_editor_block.id",
+        )
+        +drop-zone-after
+    ComponentSelector(@selected="addChildComponent($event)")

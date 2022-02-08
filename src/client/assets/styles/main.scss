@@ -1,0 +1,23 @@
+@mixin reset {
+    opacity: 0;
+}
+@mixin transition {
+    transition: opacity 0.2s;
+}
+
+.page {
+    &-enter {
+        @include reset();
+        &-active {
+            @include transition();
+        }
+    }
+    &-leave-active {
+        @include reset();
+        @include transition();
+    }
+}
+
+.section-block {
+    position: relative;
+}

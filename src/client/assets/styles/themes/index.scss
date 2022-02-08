@@ -1,0 +1,32 @@
+@use "sass:map";
+@use "./dark.scss" as dark;
+@use "./light.scss" as light;
+
+$theme: ();
+$themes: light, dark;
+$theme-props: "-text", "-background", "-edit-border";
+
+@mixin addTheme($name, $theme-map) {
+    @each $prop in $theme-props {
+        $theme: map-merge($theme, ($name#{$prop}: map.get($theme-map, $prop))) !global;
+    }
+}
+
+@function getThemeParam($theme-name, $param) {
+    @return map.get($theme, $theme-name#{$param});
+}
+
+@function getTextColor($name) {
+    @return getThemeParam($name, -text);
+}
+
+@function getThemeBackgroundColor($name) {
+    @return getThemeParam($name, -background);
+}
+
+@function getEditBorderColor($name) {
+    @return getThemeParam($name, -edit-border);
+}
+
+@include addTheme("dark", dark.$theme);
+@include addTheme("light", light.$theme);

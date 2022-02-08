@@ -1,0 +1,19 @@
+@use "./styles.scss" as *;
+@use "~assets/styles/page_editor/draggable-zones.scss" as *;
+
+$theme: "dark";
+
+.edit-border-enabled {
+    border: 2px solid white;
+    min-height: 40px;
+}
+.component-controls {
+    position: absolute;
+    z-index: 900;
+    right: 0px;
+    top: 0px;
+    width: auto;
+    opacity: 0.9;
+    border-radius: 10px;
+    display: block;
+}

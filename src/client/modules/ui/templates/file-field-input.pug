@@ -1,0 +1,17 @@
+mixin file-input()
+    v-file-input(
+        ref="input",
+        v-model="model_value",
+        :label="config.name",
+        :filled="config.filled",
+        :placeholder="config.name",
+        :hint="config.hint",
+        :persistent-hint="true",
+        :accept="config.mimetyping ? config.mimetyping.join(',') : '*'",
+        :rules="validator.rules",
+        :multiple="config.multiple",
+        hide-input,
+        dense,
+        show-size,
+    )&attributes(attributes)
+    v-progress-circular(v-if="uploading", :value="(uploaded_chunks / upload_chunk_count) * 100")

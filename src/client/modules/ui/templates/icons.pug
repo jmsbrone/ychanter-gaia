@@ -1,0 +1,38 @@
+mixin fa_icon(name)
+    fa(:icon=`$ycIcon("${name}")`)&attributes(attributes)
+
+mixin mt_icon(name)
+    v-icon&attributes(attributes)=`{{ $ycIcon("${name}")  }}`
+
+mixin mt_icon_btn(name)
+    v-btn(fab, small)&attributes(attributes)
+        v-icon=`{{ $ycIcon("${name}") }}`
+
+mixin icon(name)
+    +mt_icon(name)&attributes(attributes)
+
+mixin icon_btn(name)
+    +mt_icon_btn(name)&attributes(attributes)
+
+mixin icon_btn_transparent(name)
+    +mt_icon_btn(name)(icon)&attributes(attributes)
+
+// passing variables to icons
+mixin fa_icon_v(name)
+    fa(:icon=`$ycIcon(${name})`)&attributes(attributes)
+
+mixin mt_icon_v(name)
+    v-icon&attributes(attributes)=`{{ $ycIcon(${name})  }}`
+
+mixin mt_icon_btn_v(name)
+    v-btn(fab, small)&attributes(attributes)
+        v-icon=`{{ $ycIcon(${name}) }}`
+
+mixin icon_v(name)
+    +mt_icon_v(name)&attributes(attributes)
+
+mixin icon_btn_v(name)
+    +mt_icon_btn_v(name)&attributes(attributes)
+
+mixin icon_btn_transparent_v(name)
+    +mt_icon_btn_v(name)(icon)&attributes(attributes)
