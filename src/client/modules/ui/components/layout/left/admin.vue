@@ -42,11 +42,6 @@ export default class PageAdminLeftPanel extends Vue {
             title: "Users",
             to: "/admin/users",
             icon: "users",
-        },
-        {
-            title: "Entities",
-            to: "/admin/dynamic-entities",
-            icon: "dynamic-entity"
         }
     ];
     drawer_open: boolean = false;

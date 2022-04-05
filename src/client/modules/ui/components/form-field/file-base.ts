@@ -59,7 +59,7 @@ export class FileBase<T extends FormImageFieldConfig | FormFileFieldConfig> exte
 
         try {
             const file_service = new FileService();
-            const files: File[] = this.model_value;
+            const files: File[] = this.config.multiple ? this.model_value : [this.model_value];
             this.file_uploads = [];
             this.resetUploadProgress();
             for (let i = 0; i < files.length; ++i) {
@@ -116,7 +116,7 @@ export class FileBase<T extends FormImageFieldConfig | FormFileFieldConfig> exte
             if (this.config.multiple) {
                 return _.map(this.file as FileModel[], "id");
             } else {
-                return (this.file as FileModel).id;
+                return (this.file as FileModel)?.id;
             }
         }
     }

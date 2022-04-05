@@ -156,9 +156,8 @@ export class EditorStore extends VuexModule {
      */
     @MutationAction
     async save() {
-        const state: any = this.state;
-        const page_data = EditorHelper.implodeSectionDataForSaving(state._tree, state._blocks);
-        const section: Section = _.cloneDeep(state.section);
+        const page_data = EditorHelper.implodeSectionDataForSaving(this._tree, this._blocks);
+        const section: Section = _.cloneDeep(this.section);
         section.content = JSON.stringify(page_data.options[CHILDREN_FIELD_NAME]);
         try {
             const update_data = _.assign(new UpdateSectionDto(), section);
@@ -166,8 +165,8 @@ export class EditorStore extends VuexModule {
             await section_service.save(update_data);
             await section_service.updateSectionResources(
                 section.id,
-                EditorHelper.collectUsedFilesList(state._tree, state._blocks),
-                EditorHelper.collectUsedGalleries(state._tree, state._blocks)
+                EditorHelper.collectUsedFilesList(this._tree, this._blocks),
+                EditorHelper.collectUsedGalleries(this._tree, this._blocks)
             );
 
             return { section };

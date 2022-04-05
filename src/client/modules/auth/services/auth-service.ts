@@ -56,7 +56,7 @@ export class AuthService {
         try {
             const query_result = await this.graphql_service.get(
                 new Query("current_user").take(
-                    "login,isSystemAdmin,isAdmin,isOperator,created_at,updated_at,id,permissions_rules"
+                    "isSystemAdmin,isAdmin,isOperator,created_at,updated_at,id,permissions_rules"
                 )
             );
             const user = new User();

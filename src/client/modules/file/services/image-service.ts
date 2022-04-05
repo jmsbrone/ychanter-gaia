@@ -15,7 +15,10 @@ export class ImageService {
      * @param id
      * @returns
      */
-    public async getById(id: number): Promise<File> {
+    public async getById(id: number): Promise<File | null> {
+        if (!id) {
+            return null;
+        }
         return this.graphql_service.get(new Query("image").with({ id }).take("file{id,path}"));
     }
 }
