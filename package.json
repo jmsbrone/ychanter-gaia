@@ -8,7 +8,7 @@
     "scripts": {
         "dev": "export NODE_OPTIONS=--openssl-legacy-provider && nuxt",
         "start": "node -r ts-node/register/transpile-only -r tsconfig-paths/register server_start.js",
-        "build": "",
+        "build": "export NODE_OPTIONS=--openssl-legacy-provider && nuxt build",
         "build-prod": "run-s clean:dist compile:server compile:client copy:prod",
         "clean:dist": "rm -rf dist",
         "compile:server": "tsc -b tsconfig.build.json --verbose",
@@ -27,6 +27,7 @@
     "dependencies": {
         "@casl/ability": "^5.3.1",
         "@nuxtjs/axios": "^5.13.1",
+        "axios": "^0.26.1",
         "core-js": "^3.8.3",
         "cross-env": "^7.0.3",
         "dayjs": "^1.10.4",
