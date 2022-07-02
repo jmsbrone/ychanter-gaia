@@ -10,7 +10,7 @@ client-only
                 :key="index",
                 v-if="index >= (page - 1) * options.page_size && index < page * options.page_size"
             )
-                v-img(:src="getImagePath(image)", :max-height="options.max_height")
+                v-img(:src="getImagePath(image)", :height="options.max_height")
         v-pagination(v-if="page_count > 1", v-model="page", :length="page_count")
 </template>
 
@@ -33,7 +33,7 @@ export default class UiPcContentGallery extends ComponentPrototype {
     }
 
     getImagePath(image) {
-        return `${API_URL_PATH}/images/${image.file.id}?height=${this.options.max_height * 1.5}`;
+        return `${API_URL_PATH}/files/image/resize?id=${image.file.id}&height=${this.options.max_height * 1.5}`;
     }
 
     /**

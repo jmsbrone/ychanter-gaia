@@ -16,7 +16,7 @@ export const JWT_TOKEN_SSR_ID = "jwt-token";
 export const JWT_TOKEN_COOKIE = "access_token";
 export const JWT_REFRESH_TOKEN_HEADER = "jwt-refresh-token";
 
-export const GRAPHQL_PATH = "-gql";
+export const GRAPHQL_PATH = "";
 
 export const enum Settings {
     REUSE_FILES_ON_DUPLICATE_UPLOAD = "reuse-file-on-duplicate-upload",

@@ -10,7 +10,7 @@ export default function ({ $axios, store }, inject) {
     const client_store = new VuexStore(store);
     const storage = ClientStorage.getInstance();
     const graphql_service = new GraphQLService(new GraphQLAxiosRequest($axios));
-    const axios_request = new AxiosRequest($axios, API_URL_PATH);
+    const axios_request = new AxiosRequest($axios);
 
     storage.setStore(client_store);
     storage.setGraphQLService(graphql_service);
