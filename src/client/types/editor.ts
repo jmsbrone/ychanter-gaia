@@ -139,6 +139,14 @@ export type FormImageFieldConfig = FormFieldConfigPrototype &
     };
 
 /**
+ * Config for audio files
+ */
+export type FormAudioFieldConfig = FormFieldConfigPrototype &
+    CommonFileFieldConfig & {
+        type: FieldType.audio;
+    };
+
+/**
  * Config for password fields
  */
 export type FormPasswordFieldConfig = FormFieldConfigPrototype & {

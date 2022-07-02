@@ -29,4 +29,5 @@ export enum FieldType {
     // Like (type & FieldType.file)
     file = 0x0100,
     image = 0x0101,
+    audio = 0x0102,
 }

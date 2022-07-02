@@ -13,7 +13,7 @@ div
 <script lang="ts">
 import _ from "client/helpers/lodash";
 import { FileService } from "client/modules/file/services/file-service";
-import { FormFieldConfig, FormFileFieldConfig } from "client/types/editor";
+import { FormFileFieldConfig } from "client/types/editor";
 import { Component } from "nuxt-property-decorator";
 import { FileBase } from "./file-base";
 

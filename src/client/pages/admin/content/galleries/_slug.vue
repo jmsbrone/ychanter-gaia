@@ -12,7 +12,7 @@ div(v-if="gallery")
     v-sheet
         v-row(v-if="gallery.images && gallery.images.length > 0", no-gutters)
             v-col(cols="4", sm="4", md="3", lg="2", xl="1", v-for="(image, index) in imagesForPage", :key="index")
-                v-img(v-if="image", :src="`/api/images/${image.file.id}?width=300`", cover, aspect-ratio="1", max-height="300")
+                v-img(v-if="image", :src="`/api/files/image/resize?id=${image.file.id}&width=300`", cover, aspect-ratio="1", max-height="300")
                 v-progress-circular(v-else, indeterminate)
         div(v-else) Gallery is empty
     v-pagination(v-if="pageCount > 1", v-model="page", :length="pageCount")
@@ -63,7 +63,7 @@ export default class AdminContentGalleryDetail extends Vue {
     async reloadGallery() {
         const gallery_service = new GalleryService();
         if (this.gallery_id) {
-            let gallery = await gallery_service.getById(this.gallery_id, true);
+            let gallery = await gallery_service.getById(this.gallery_id);
             gallery.images = await gallery_service.getImages(this.gallery_id, this.page_size);
             gallery.images.length = gallery.image_count;
             this.gallery = gallery;

@@ -37,7 +37,7 @@ div
             :key="index",
             v-if="index >= (page - 1) * page_size && index < page * page_size"
         )
-            v-img(max-height="400", :src="`/api/images/${image.file.id}?width=200`", cover, aspect-ratio="1")
+            v-img(max-height="400", :src="`/api/files/image/resize?id=${image.file.id}&width=200`", cover, aspect-ratio="1")
                 +icon_btn("delete")(@click="removeImage(index)")
     v-pagination(v-if="images && images.length > page_size", v-model="page", :length="page_count")
     div(v-show="false")
@@ -210,7 +210,7 @@ export default class FormFieldGallery extends FormFieldBase<FormImageFieldConfig
      * Creates new gallery with current name
      */
     async createGallery() {
-        this.gallery = await this.gallery_service.create(this.tmp_gallery.name);
+        this.gallery = await this.gallery_service.save({name: this.tmp_gallery.name});
     }
 
     /**
@@ -222,7 +222,7 @@ export default class FormFieldGallery extends FormFieldBase<FormImageFieldConfig
         }
         this.tmp_gallery.name = name;
 
-        const galleries = await this.gallery_service.findByName(`${name}%`);
+        const galleries = await this.gallery_service.findByName(name);
         _.sort(galleries, (gallery) => gallery.name.length);
         if (galleries.length > 0 && galleries[0].name === name) {
             (this.tmp_gallery as any).header = "Gallery with this name already exists, click to select it.";

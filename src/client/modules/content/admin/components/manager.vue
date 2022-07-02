@@ -5,6 +5,8 @@ v-container(fluid)
         v-card-subtitle Create, edit, remove content
         v-card-text
             v-btn(nuxt, to="/admin/content/galleries") Galleries
+            v-btn(nuxt, to="/admin/content/playlists") Playlists
+
     NuxtChild
 </template>
 

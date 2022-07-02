@@ -3,10 +3,10 @@ import { FormFieldBase } from "./base";
 import { File as FileModel } from "../../../file/types/file";
 import { FileService, FileUploadInfo } from "client/modules/file/services/file-service";
 import _ from "client/helpers/lodash";
-import { FormFileFieldConfig, FormImageFieldConfig } from "client/types/editor";
+import { FormAudioFieldConfig, FormFileFieldConfig, FormImageFieldConfig } from "client/types/editor";
 
 @Component({})
-export class FileBase<T extends FormImageFieldConfig | FormFileFieldConfig> extends FormFieldBase<T> {
+export class FileBase<T extends FormImageFieldConfig | FormFileFieldConfig | FormAudioFieldConfig> extends FormFieldBase<T> {
     file: FileModel | FileModel[] = null;
     uploading = false;
     upload_progress = {

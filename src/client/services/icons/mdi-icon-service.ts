@@ -30,6 +30,9 @@ export class MdiIconService implements IconServiceInterface {
         "chevron-right": "chevron-right",
         confirm: "check",
         "dynamic-entity": "home-city",
+        "add-audio-file": "music-box",
+        play: "play-circle",
+        pause: "pause-circle",
     };
     private missing_icon = "alert-octagram";
 
