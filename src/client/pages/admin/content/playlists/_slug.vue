@@ -51,6 +51,9 @@ div(v-if="playlist")
                             @click="pause()"
                         )
                         .my-auto.text-body-1-bold.ml-4 {{ track.name }}
+                        +icon_btn("delete")(
+                            @click="removeFromPlaylist(track)"
+                        )
 
         .pt-4(v-if="upload_data")
             v-row.my-2(
@@ -164,6 +167,11 @@ export default class AdminContentPlaylistDetail extends Vue {
     selectTrack(track: AudioFile) {
         this.service.sendTrackEvent(track.file.id, "started_manual");
         this.playTrack(track);
+    }
+
+    removeFromPlaylist(track: AudioFile) {
+        this.service.detachFromPlaylist(this.playlistId, [track.file.id]);
+        this.playlist.tracks.splice(this.playlist.tracks.indexOf(track), 1);
     }
 
     playTrack(track: AudioFile) {

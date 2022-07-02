@@ -21,6 +21,7 @@ export class PlaylistService extends EntityServicePrototype<
                 updatePlaylist: ["name", "id"],
                 deletePlaylist: ["id"],
                 addTracksToPlaylist: ["playlistId", "trackIds"],
+                removeTracksFromPlaylist: ["playlistId", "trackIds"],
                 createPlaylist: ["name"],
                 trackPlaylistTrackEvent: ["event", "track_id"],
             },
@@ -41,6 +42,12 @@ export class PlaylistService extends EntityServicePrototype<
     public attachTrackToPlaylist(playlistId: number, trackIds: number[]) {
         return this.graphql_service.get(
             this.schema.getMutation("addTracksToPlaylist", { playlistId, trackIds }, ["id"])
+        );
+    }
+
+    public detachFromPlaylist(playlistId: number, trackIds: number[]) {
+        return this.graphql_service.get(
+            this.schema.getMutation("removeTracksFromPlaylist", { playlistId, trackIds }, ["id"])
         );
     }
 
