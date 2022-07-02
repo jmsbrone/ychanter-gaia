@@ -1,5 +1,5 @@
 {
-    "name": "ychanter",
+    "name": "@ychanter/client",
     "version": "0.0.0",
     "description": "YChanter CMS",
     "author": "jmsbrone",
@@ -7,7 +7,7 @@
     "license": "none",
     "scripts": {
         "dev": "export NODE_OPTIONS=--openssl-legacy-provider && nuxt",
-        "start": "node -r ts-node/register/transpile-only -r tsconfig-paths/register server_start.js",
+        "start": "nuxt start",
         "build": "export NODE_OPTIONS=--openssl-legacy-provider && nuxt build",
         "build-prod": "run-s clean:dist compile:server compile:client copy:prod",
         "clean:dist": "rm -rf dist",
@@ -24,9 +24,15 @@
         "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
         "test:e2e": "jest --config ./test/jest-e2e.json"
     },
+    "files": [
+        ".nuxt",
+        "nuxt.config.js",
+        "package-lock.json"
+    ],
     "dependencies": {
         "@casl/ability": "^5.3.1",
         "@nuxtjs/axios": "^5.13.1",
+        "@ychanter/graphql-client": "file:local_registry/ychanter-graphql-client-1.4.0.tgz",
         "axios": "^0.26.1",
         "core-js": "^3.8.3",
         "cross-env": "^7.0.3",

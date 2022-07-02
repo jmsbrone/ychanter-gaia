@@ -1,18 +1,26 @@
-/**
- * @summary
- *
- * GraphQL service for sysvar
- */
-
 import { ClientStorage } from "client/core/components/storage/client-storage";
-import { Mutation } from "common/lib/graphql/mutation";
-import { Query } from "common/lib/graphql/query";
+import { GenericResourceSchema, ResourceSchema } from "@ychanter/graphql-client";
+import { Query } from "@ychanter/graphql-client";
 import { FieldType } from "common/core/types/field-type-enum";
 import { SysVar } from "../domains/sys-var";
 
 export class SysVarService {
     private readonly DEFAULT_TYPE = FieldType.string;
     private readonly DEFAULT_VALUE = "";
+
+    protected readonly schema: ResourceSchema = new GenericResourceSchema({
+        queries: {
+            sysvar: ["name"],
+            sysvars: [],
+            setSysVar: ["name", "type", "value"],
+            deleteSysVar: ["name"],
+        },
+        fieldsTypes: {
+            name: "String",
+            type: "Int",
+            value: "String",
+        },
+    });
 
     public constructor(protected readonly graphql_service = ClientStorage.getInstance().getGraphQLService()) {}
 
@@ -22,12 +30,7 @@ export class SysVarService {
      * @returns
      */
     public async get(name: string): Promise<SysVar> {
-        const entity = await this.graphql_service.get(
-            new Query("sysvar")
-                .with({ name: "$name" })
-                .vars({ name: { type: "String!", value: name } })
-                .take("name,value,type")
-        );
+        const entity = await this.graphql_service.get(this.schema.getQuery("sysvar", { name }, ["name,value,type"]));
         if (!entity) {
             return {
                 name,
@@ -50,27 +53,7 @@ export class SysVarService {
      */
     public async set(name: string, value: any, type: FieldType = this.DEFAULT_TYPE): Promise<SysVar> {
         return await this.graphql_service.get(
-            new Mutation("setSysVar")
-                .with({
-                    name: "$name",
-                    value: "$value",
-                    type: "$type",
-                })
-                .vars({
-                    name: {
-                        type: "String!",
-                        value: name,
-                    },
-                    type: {
-                        type: "Int!",
-                        value: type,
-                    },
-                    value: {
-                        type: "String!",
-                        value: value?.toString() || "",
-                    },
-                })
-                .take("name,value")
+            this.schema.getMutation("setSysVar", { name, type, value: value.toString() }, ["name,value"])
         );
     }
 
@@ -79,6 +62,6 @@ export class SysVarService {
      * @returns
      */
     public async getAll(): Promise<SysVar[]> {
-        return await this.graphql_service.get(new Query("sysvars").take("name,value,type"));
+        return await this.graphql_service.get(this.schema.getQuery("sysvars", {}, ["name,value,type"]));
     }
 }

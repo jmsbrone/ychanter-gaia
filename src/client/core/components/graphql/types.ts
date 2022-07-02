@@ -1,5 +1,5 @@
 import { RequestExecutionResult } from "client/types/requests";
-import { GraphQLQuery } from "common/lib/graphql/query-interface";
+import { GraphQLQuery } from "@ychanter/graphql-client";
 
 /**
  * Extending class to localize dependencies and improve readability.

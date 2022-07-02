@@ -3,11 +3,10 @@
  */
 import { PlainObject } from "client/types/basic";
 import _ from "client/helpers/lodash";
-import { Query } from "common/lib/graphql/query";
-import { Mutation } from "common/lib/graphql/mutation";
+import { CRUDResourceSchema } from "@ychanter/graphql-client";
 import { GraphQLService } from "client/core/components/graphql/graphql-service";
 import { ClientStorage } from "client/core/components/storage/client-storage";
-import { GraphQLQuery } from "common/lib/graphql/query-interface";
+import { GraphQLQuery } from "@ychanter/graphql-client";
 
 export type EntityCreateDto<T> = {
     [key in keyof T]?: any;
@@ -30,23 +29,22 @@ export abstract class EntityServicePrototype<
     UpdateDto extends EntityUpdateDto<T>,
     DeleteDto extends EntityDeleteDto<T>
 > {
+    protected schema: CRUDResourceSchema;
+
     /**
      * Creates new entity service
-     * @param query_one GraphQL query name for selecting a single entity
-     * @param query_list GraphQL query name for selecting multiple entity
-     * @param mutation_new GraphQL mutation name for adding new entity
-     * @param mutation_update GraphQL mutation name for updating entity
-     * @param mutation_delete GraphQL mutation name for deleting entity
      */
     public constructor(
         private entity_constructor: new () => T,
-        protected readonly query_one: string,
-        protected readonly query_list: string,
-        protected readonly mutation_new: string,
-        protected readonly mutation_update: string,
-        protected readonly mutation_delete: string,
         protected readonly graphql_service: GraphQLService = ClientStorage.getInstance().getGraphQLService()
-    ) {}
+    ) {
+        this.schema = this.createSchema();
+    }
+
+    /**
+     * Returnes graphql schema for this service
+     */
+    protected abstract createSchema(): CRUDResourceSchema;
 
     /**
      * Returns a list of fields that will be requested with entity
@@ -54,13 +52,7 @@ export abstract class EntityServicePrototype<
     protected abstract getUsedEntityFields(): string[];
 
     /**
-     * Returns a mapper with entity attributes to corresponding GraphQL type
-     */
-    protected abstract getEntityFieldGraphQLTypes(): { [key in keyof Partial<T>]: string };
-
-    /**
      * Creates new entity model from given data
-     * @param constructor
      * @param data
      * @returns
      */
@@ -105,11 +97,8 @@ export abstract class EntityServicePrototype<
      * Fetches entity by id
      * @param id
      */
-    public async getById(id: number, load_content = false): Promise<T | null> {
-        const query = new Query(this.query_one).with({ id }).take(...this.getUsedEntityFields());
-        if (load_content) {
-            query.take("content");
-        }
+    public async getById(id: number): Promise<T | null> {
+        const query = this.schema.getQueryOne({ id }, this.getUsedEntityFields());
 
         return this.getOneByQuery(query);
     }
@@ -120,7 +109,6 @@ export abstract class EntityServicePrototype<
      * @param limit
      */
     public async getAll(offset = 0, limit = 0): Promise<T[]> {
-        const query = new Query(this.query_list).take(...this.getUsedEntityFields());
         const args: PlainObject = {};
         if (offset > 0) {
             args["offset"] = offset;
@@ -128,7 +116,7 @@ export abstract class EntityServicePrototype<
         if (limit > 0) {
             args["limit"] = limit;
         }
-        query.with(args);
+        const query = this.schema.getQueryMany(args, this.getUsedEntityFields());
 
         return this.getListByQuery(query);
     }
@@ -139,28 +127,7 @@ export abstract class EntityServicePrototype<
      * @returns
      */
     public async save(dto: UpdateDto | CreateDto): Promise<T | null> {
-        let mutation_name: string;
-        if (typeof dto["id"] !== "undefined" && dto["id"] > 0) {
-            mutation_name = this.mutation_update;
-        } else {
-            mutation_name = this.mutation_new;
-        }
-
-        const mutation = new Mutation(mutation_name).take(...this.getUsedEntityFields());
-        const attribute_types = this.getEntityFieldGraphQLTypes();
-        const args: PlainObject = {};
-        const vars: PlainObject = {};
-        _.each(attribute_types, (type, attribute) => {
-            if ((mutation_name === this.mutation_new && attribute === "id") || typeof dto[attribute] === "undefined") {
-                return;
-            }
-            args[attribute] = `$${attribute}`;
-            vars[attribute] = {
-                type,
-                value: dto[attribute],
-            };
-        });
-        mutation.with(args).vars(vars);
+        const mutation = this.schema.getSaveMutation(dto, this.getUsedEntityFields());
 
         return await this.getOneByQuery(mutation);
     }
@@ -171,7 +138,7 @@ export abstract class EntityServicePrototype<
      * @returns
      */
     public async delete(entity: DeleteDto): Promise<boolean> {
-        const mutation = new Mutation(this.mutation_delete).with({ id: (entity as any).id });
+        const mutation = this.schema.getDeleteMutation({ id: (entity as any).id }, []);
         let result = false;
         try {
             await this.graphql_service.get(mutation);

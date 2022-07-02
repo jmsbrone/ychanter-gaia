@@ -1,11 +1,5 @@
-/**
- * @summary
- *
- * Service for working with images
- */
-
 import { ClientStorage } from "client/core/components/storage/client-storage";
-import { Query } from "common/lib/graphql/query";
+import { Query } from "@ychanter/graphql-client";
 import { File } from "../types/file";
 
 export class ImageService {
@@ -19,6 +13,11 @@ export class ImageService {
         if (!id) {
             return null;
         }
-        return this.graphql_service.get(new Query("image").with({ id }).take("file{id,path}"));
+        return this.graphql_service.get(
+            new Query("image")
+                .vars({ id: { type: "Int!", value: id } })
+                .args(["id"])
+                .take("file{id,path}")
+        );
     }
 }

@@ -60,7 +60,7 @@ export default class PageEditor extends Vue {
 
         try {
             const section_service = new SectionService();
-            this.section = await section_service.getById(section_id, true);
+            this.section = await section_service.getById(section_id);
             this.$store.commit("editor/setSection", this.section);
         } catch (error) {
             console.log(error);

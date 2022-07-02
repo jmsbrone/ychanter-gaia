@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 import _ from "client/helpers/lodash";
 import { GRAPHQL_PATH, JWT_REFRESH_TOKEN_HEADER } from "common/constants";
-import { GraphQLQuery } from "common/lib/graphql/query-interface";
+import { GraphQLQuery } from "@ychanter/graphql-client";
 import { GraphQLQueryExecutionResult, GraphQLQueryRunner } from "client/core/components/graphql/types";
 import { GraphQLResultMaker } from "client/core/components/graphql/result-maker";
 import { ClientStorage } from "client/core/components/storage/client-storage";
@@ -28,7 +28,7 @@ export class GraphQLAxiosRequest extends AxiosRequestBase implements GraphQLQuer
             .post(
                 this.prepareUrl(),
                 {
-                    query: query.getQuery(),
+                    query: query.build(),
                     variables: query.getVariables(),
                 },
                 this.prepareConfig()

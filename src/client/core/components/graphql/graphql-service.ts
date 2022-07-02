@@ -1,6 +1,6 @@
+import { GraphQLQuery } from "@ychanter/graphql-client";
 import { GraphQLClientException, GraphQLServerException } from "client/core/components/graphql/exceptions";
 import { GraphQLQueryRunner } from "client/core/components/graphql/types";
-import { GraphQLQuery } from "common/lib/graphql/query-interface";
 
 /**
  * Service for executing GraphQL queries

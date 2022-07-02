@@ -6,8 +6,8 @@ import { GraphQLService } from "client/core/components/graphql/graphql-service";
 import { ClientStorage } from "client/core/components/storage/client-storage";
 import { UserPermissions } from "client/modules/auth/types/user-permissions-subject";
 import { UserLoginDto } from "common/dto/user/login.dto";
-import { Query } from "common/lib/graphql/query";
 import { User } from "../domains/user";
+import { Query } from "@ychanter/graphql-client";
 
 /**
  * Service for authentication and authorization logic
@@ -56,12 +56,15 @@ export class AuthService {
         try {
             const query_result = await this.graphql_service.get(
                 new Query("current_user").take(
-                    "isSystemAdmin,isAdmin,isOperator,created_at,updated_at,id,permissions_rules"
+                    "isSystemAdmin,isAdmin,isOperator,created_at,updated_at,id"
                 )
             );
+            if (query_result === null) {
+                throw new Error("Unauthorized");
+            }
             const user = new User();
             _.assign(user, query_result);
-            user.permissions = new UserPermissions(JSON.parse(user.permissions_rules));
+            user.permissions = new UserPermissions(JSON.parse("{}"));
             ClientStorage.getInstance().getStore().commit("root/setUser", user);
         } catch (error) {
             throw new Error(error);

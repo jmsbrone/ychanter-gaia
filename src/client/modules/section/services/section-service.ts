@@ -2,8 +2,12 @@ import { EntityServicePrototype } from "client/prototypes/entity-service-prototy
 import { CreateSectionDto } from "common/dto/section/create-section.dto";
 import { DeleteSectionDto } from "common/dto/section/delete-section-dto";
 import { UpdateSectionDto } from "common/dto/section/update-section.dto";
-import { Mutation } from "common/lib/graphql/mutation";
-import { Query } from "common/lib/graphql/query";
+import {
+    CRUDResourceSchema,
+    CRUDResourceSchemaPrototype,
+    GenericResourceSchema,
+    ResourceSchema,
+} from "@ychanter/graphql-client";
 import { Section } from "../domains/section";
 
 export class SectionService extends EntityServicePrototype<
@@ -12,36 +16,68 @@ export class SectionService extends EntityServicePrototype<
     UpdateSectionDto,
     DeleteSectionDto
 > {
+    /**
+     * @inheritdoc
+     */
+    protected createSchema(): CRUDResourceSchema {
+        return new CRUDResourceSchemaPrototype({
+            deleteResourceQuery: "deleteSection",
+            saveResourceQuery: "saveSection",
+            singleResourceQuery: "section",
+            listResourceQuery: "sections",
+            queries: {
+                deleteSection: ["id"],
+                saveSection: [],
+                sections: [],
+                section: [],
+            },
+            fieldsTypes: {
+                id: "Int",
+                name: "String",
+                alias: "String",
+                path: "String",
+                content: "String",
+                parent: "Int",
+                system: "Boolean",
+                has_dynamic_routes: "Boolean",
+                has_indexed_filter: "Boolean",
+            },
+        });
+    }
+
+    /**
+     * Schema for section resources
+     */
+    protected sectionResourcesSchema: ResourceSchema = new GenericResourceSchema({
+        queries: {
+            updateSectionResources: ["id", "file_ids", "gallery_ids"],
+        },
+        fieldsTypes: {
+            id: "Int",
+            file_ids: "[Int!]",
+            gallery_ids: "[Int!]",
+        },
+    });
+
     constructor() {
-        super(Section, "section", "sections", "createSection", "updateSection", "deleteSection");
+        super(Section);
     }
 
+    /**
+     * @inheritdoc
+     */
     protected getUsedEntityFields(): string[] {
-        return ["id", "alias", "name", "path", "parent", "system", "has_dynamic_routes", "has_indexed_filter"];
-    }
-
-    protected getEntityFieldGraphQLTypes(): {
-        id?: string;
-        name?: string;
-        alias?: string;
-        content?: string;
-        path?: string;
-        parent?: string;
-        system?: string;
-        has_dynamic_routes?: string;
-        has_indexed_filter?: string;
-    } {
-        return {
-            id: "Int!",
-            name: "String!",
-            alias: "String!",
-            path: "String!",
-            content: "String!",
-            parent: "Int",
-            system: "Boolean!",
-            has_dynamic_routes: "Boolean!",
-            has_indexed_filter: "Boolean!",
-        };
+        return [
+            "id",
+            "alias",
+            "name",
+            "path",
+            "parent",
+            "system",
+            "has_dynamic_routes",
+            "has_indexed_filter",
+            "content",
+        ];
     }
 
     /**
@@ -50,13 +86,9 @@ export class SectionService extends EntityServicePrototype<
      * @returns
      */
     public async getListByParent(parent_section_id: number): Promise<Section[]> {
-        const query = new Query("sections", "sectionListByParent")
-            .with({
-                parentId: parent_section_id,
-            })
-            .take(...this.getUsedEntityFields());
-
-        return this.getListByQuery(query);
+        return this.getListByQuery(
+            this.schema.getQueryMany({ parent: parent_section_id }, this.getUsedEntityFields())
+        );
     }
 
     /**
@@ -65,19 +97,9 @@ export class SectionService extends EntityServicePrototype<
      * @returns
      */
     public async getByPath(path: string): Promise<Section | null> {
-        const query = new Query("section", "sectionByPath")
-            .with({
-                path: "$path",
-            })
-            .vars({
-                path: {
-                    type: "String",
-                    value: path,
-                },
-            })
-            .take(...this.getUsedEntityFields(), "content");
-
-        return this.getOneByQuery(query);
+        return this.getOneByQuery(
+            this.schema.getQueryOne({ path: path }, this.getUsedEntityFields()).take("content")
+        );
     }
 
     /**
@@ -88,20 +110,9 @@ export class SectionService extends EntityServicePrototype<
      * @returns
      */
     public async updateSectionResources(section_id: number, files: number[], galleries: number[]): Promise<void> {
-        const query = new Mutation("updateSectionResources")
-            .with({ section_id, file_ids: "$files", gallery_ids: "$galleries" })
-            .vars({
-                files: {
-                    value: files,
-                    type: "[Int!]!",
-                },
-                galleries: {
-                    value: galleries,
-                    type: "[Int!]!",
-                },
-            })
-            .take("id");
-
-        return this.graphql_service.get(query);
+        return this.graphql_service.get(
+            this.sectionResourcesSchema
+                .getMutation("updateSectionResources", { id: section_id, file_ids: files, gallery_ids: galleries }, [])
+        );
     }
 }

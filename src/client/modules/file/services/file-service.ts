@@ -1,10 +1,10 @@
 /**
  * @module Modules.File.Services
  */
+
 import { GraphQLService } from "client/core/components/graphql/graphql-service";
 import { ClientStorage } from "client/core/components/storage/client-storage";
-import { Mutation } from "common/lib/graphql/mutation";
-import { Query } from "common/lib/graphql/query";
+import { GenericResourceSchema } from "@ychanter/graphql-client";
 import { Subject } from "rxjs";
 import { File as FileType } from "../types/file";
 
@@ -12,9 +12,29 @@ import { File as FileType } from "../types/file";
  * Service for working with files
  */
 export class FileService {
+    protected schema: GenericResourceSchema;
+
     public constructor(
         protected readonly graphql_service: GraphQLService = ClientStorage.getInstance().getGraphQLService()
-    ) {}
+    ) {
+        this.schema = new GenericResourceSchema({
+            queries: {
+                createFileTransfer: ["size", "name"],
+                transferFileChunk: ["transfer_id", "offset", "data"],
+                updateFavicon: ["id"],
+                file: ["id"],
+            },
+            fieldsTypes: {
+                size: "Int",
+                name: "String",
+                data: "ByteArray",
+                transfer_id: "Int",
+                offset: "Int",
+                path: "String",
+                id: "Int",
+            },
+        });
+    }
 
     /**
      * Returns an object containing information about the file that is then used
@@ -25,7 +45,7 @@ export class FileService {
      */
     public async prepareUploadForFile(file: File, type: string): Promise<FileUploadInfo | null> {
         const store = ClientStorage.getInstance().getStore();
-        const chunk_size: number = store.getGetter("max_transfer_chunk_size") || 500000; // 500KB by default
+        const chunk_size: number = 500000; // 500KB by default
         const transfer_id = await this.createTransfer(file, type);
         const upload_observer = new Subject<FileType>();
 
@@ -86,7 +106,7 @@ export class FileService {
         }
 
         return this.graphql_service.get(
-            new Query("createFileTransfer").with({ size: file.size, type: file_type, name: file.name })
+            this.schema.getMutation("createFileTransfer", { size: file.size, name: file.name })
         );
     }
 
@@ -99,15 +119,7 @@ export class FileService {
      */
     public sendData(transfer_id: number, offset: number, data: Buffer): Promise<FileType> {
         return this.graphql_service.get(
-            new Mutation("transferFileChunk")
-                .with({ transfer_id, offset, data: "$data" })
-                .vars({
-                    data: {
-                        type: "ByteArray!",
-                        value: data,
-                    },
-                })
-                .take("id,name,path")
+            this.schema.getMutation("transferFileChunk", { transfer_id, offset, data }, ["id", "name", "path"])
         );
     }
 
@@ -117,7 +129,9 @@ export class FileService {
      * @returns
      */
     public updateFavicon(new_favicon_id: number): Promise<void> {
-        return this.graphql_service.get(new Mutation("updateFavicon").with({ id: new_favicon_id }).take("id"));
+        return this.graphql_service.get(
+            this.schema.getMutation("updateFavicon", { id: new_favicon_id }, ["id"])
+        );
     }
 
     /**
@@ -126,7 +140,10 @@ export class FileService {
      * @returns
      */
     public getById(id: number): Promise<File> {
-        return this.graphql_service.get(new Query("file").with({ id }).take("id,name,path"));
+        return this.graphql_service.get(
+            this.schema.getQuery("file", { id }, ["id", "name", "path"])
+            // new Query("file").with({ id }).take("id,name,path")
+        );
     }
 }
 
