@@ -5,9 +5,9 @@
  * @module Helpers.EditorStoreHelper
  */
 
-import _ from "client/helpers/lodash";
+import _ from "client/core/helpers/lodash";
 
-import { NavLinkConfig } from "../modules/ui/components/page/navigation/nav-link/config";
+import { NavLinkConfig } from "../../modules/ui/components/page/navigation/nav-link/config";
 import {
     ComponentOptions,
     FormConfig,
@@ -16,13 +16,13 @@ import {
     ComponentBlockType,
     CHILDREN_FIELD_NAME,
     ComponentConfig,
-} from "../types/editor";
-import { FieldType } from "../../common/core/types/field-type-enum";
+} from "../../types/editor";
+import { FieldType } from "../../../common/core/types/field-type-enum";
 
 import { StringGenerator } from "common/factories/string-generator";
 
-import { GridRowConfig } from "../modules/ui/components/page/grid/row/config";
-import { GalleryConfig } from "../modules/ui/components/page/content/gallery/config";
+import { GridRowConfig } from "../../modules/ui/components/page/grid/row/config";
+import { GalleryConfig } from "../../modules/ui/components/page/content/gallery/config";
 import { SlideConfig } from "client/modules/ui/components/page/content/slide/config";
 import { RawHtmlConfig } from "client/modules/ui/components/page/content/raw-html/config";
 import { TextBlockConfig } from "client/modules/ui/components/page/content/text-block/config";
@@ -30,7 +30,7 @@ import { GridColumnConfig } from "client/modules/ui/components/page/grid/column/
 import { ContainerConfig } from "client/modules/ui/components/page/grid/container/config";
 import { MenuConfig } from "client/modules/ui/components/page/navigation/menu/config";
 import { SectionMenuConfig } from "client/modules/ui/components/page/navigation/section-menu/config";
-import { PlainObject } from "../types/basic";
+import { PlainObject } from "../../types/basic";
 
 /**
  * @constant BLOCK_ID_LENGTH Length of string with generated component block id

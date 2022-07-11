@@ -1,6 +1,6 @@
 import { NuxtAxiosInstance } from "@nuxtjs/axios";
 import { AxiosRequestConfig } from "@nuxtjs/axios/node_modules/axios";
-import _ from "client/helpers/lodash";
+import _ from "client/core/helpers/lodash";
 import { ClientStorage } from "client/core/components/storage/client-storage";
 
 /**

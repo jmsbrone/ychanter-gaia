@@ -1,5 +1,5 @@
 import { FIELD_CHANGE_DEBOUNCE_TIMEOUT, FormFieldConfig } from "client/types/editor";
-import _ from "client/helpers/lodash";
+import _ from "client/core/helpers/lodash";
 import { Component, Prop, Vue, Watch } from "nuxt-property-decorator";
 import { StringGenerator } from "common/factories/string-generator";
 import { FormValidator } from "../../classes/form-validator";

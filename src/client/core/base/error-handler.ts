@@ -1,5 +1,5 @@
-import { ErrorHelper } from "client/helpers/error-helper";
-import _ from "client/helpers/lodash";
+import { ErrorHelper } from "client/core/helpers/error-helper";
+import _ from "client/core/helpers/lodash";
 import { PlainObject } from "client/types/basic";
 import { ERROR_MESSAGE_TEMPLATE_VAR_BOUNDARY } from "common/constants";
 

@@ -4,7 +4,7 @@
  * Class for providing form validation based on passed config.
  */
 
-import _ from "client/helpers/lodash";
+import _ from "client/core/helpers/lodash";
 import { FormAutocompleteFieldConfig, FormFieldConfig, FormFieldValidationFunction } from "client/types/editor";
 import { FieldType } from "common/core/types/field-type-enum";
 

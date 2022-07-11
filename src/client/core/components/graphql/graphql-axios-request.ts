@@ -1,11 +1,11 @@
 /* eslint-disable no-console */
-import _ from "client/helpers/lodash";
+import _ from "client/core/helpers/lodash";
 import { GRAPHQL_PATH, JWT_REFRESH_TOKEN_HEADER } from "common/constants";
 import { GraphQLQuery } from "@ychanter/graphql-client";
 import { GraphQLQueryExecutionResult, GraphQLQueryRunner } from "client/core/components/graphql/types";
 import { GraphQLResultMaker } from "client/core/components/graphql/result-maker";
 import { ClientStorage } from "client/core/components/storage/client-storage";
-import { AxiosRequestBase } from "client/core/axios-request-base";
+import { AxiosRequestBase } from "client/core/prototypes/axios-request-base";
 
 /**
  * Class for performing graphql requests over axios.

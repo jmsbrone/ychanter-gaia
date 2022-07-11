@@ -2,7 +2,7 @@
  * @module Prototypes
  */
 import { PlainObject } from "client/types/basic";
-import _ from "client/helpers/lodash";
+import _ from "client/core/helpers/lodash";
 import { CRUDResourceSchema } from "@ychanter/graphql-client";
 import { GraphQLService } from "client/core/components/graphql/graphql-service";
 import { ClientStorage } from "client/core/components/storage/client-storage";

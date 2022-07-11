@@ -1,9 +1,9 @@
 /**
  * @summary Store module for use with page editor.
  */
-import _ from "client/helpers/lodash";
+import _ from "client/core/helpers/lodash";
 
-import { COMPONENTS_CONFIG, EditorHelper } from "client/helpers/editor-store-helper";
+import { COMPONENTS_CONFIG, EditorHelper } from "client/core/helpers/editor-store-helper";
 import { CHILDREN_FIELD_NAME, ComponentSelectorOption, EditorBlocks, EditorTreeNode } from "client/types/editor";
 import { Module, VuexModule, Mutation, MutationAction } from "vuex-module-decorators";
 import { SectionService } from "client/modules/section/services/section-service";

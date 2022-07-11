@@ -1,7 +1,7 @@
 /**
  * @module Modules.Auth.Services
  */
-import _ from "client/helpers/lodash";
+import _ from "client/core/helpers/lodash";
 import { GraphQLService } from "client/core/components/graphql/graphql-service";
 import { ClientStorage } from "client/core/components/storage/client-storage";
 import { UserPermissions } from "client/modules/auth/types/user-permissions-subject";

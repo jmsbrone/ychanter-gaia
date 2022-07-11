@@ -9,7 +9,7 @@ import { SysVar } from "client/modules/sysvar/domains/sys-var";
 import { SysVarService } from "client/modules/sysvar/services/sys-var-service";
 import { ServerSettings } from "client/types/app";
 import { Module, Mutation, MutationAction, VuexModule } from "vuex-module-decorators";
-import _ from "../helpers/lodash";
+import _ from "../core/helpers/lodash";
 
 @Module({
     name: "settings",

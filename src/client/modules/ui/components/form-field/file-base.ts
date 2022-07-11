@@ -2,7 +2,7 @@ import { Component } from "nuxt-property-decorator";
 import { FormFieldBase } from "./base";
 import { File as FileModel } from "../../../file/types/file";
 import { FileService, FileUploadInfo } from "client/modules/file/services/file-service";
-import _ from "client/helpers/lodash";
+import _ from "client/core/helpers/lodash";
 import { FormAudioFieldConfig, FormFileFieldConfig, FormImageFieldConfig } from "client/types/editor";
 
 @Component({})

@@ -2,7 +2,7 @@
  * @module Prototypes
  */
 import { AxiosRequestConfig } from "@nuxtjs/axios/node_modules/axios";
-import _ from "client/helpers/lodash";
+import _ from "client/core/helpers/lodash";
 import { AxiosRequest } from "client/core/components/axios-request";
 import { ClientStorage } from "client/core/components/storage/client-storage";
 import { PlainObject } from "../types/basic";

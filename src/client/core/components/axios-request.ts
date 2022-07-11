@@ -1,6 +1,6 @@
 import { NuxtAxiosInstance } from "@nuxtjs/axios";
 import { AxiosRequestConfig, AxiosResponse } from "@nuxtjs/axios/node_modules/axios";
-import { AxiosRequestBase } from "client/core/axios-request-base";
+import { AxiosRequestBase } from "client/core/prototypes/axios-request-base";
 
 export class AxiosRequest extends AxiosRequestBase {
     public constructor(protected readonly $axios: NuxtAxiosInstance, protected readonly prefix: string = "") {

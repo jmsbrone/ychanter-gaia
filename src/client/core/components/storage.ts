@@ -9,7 +9,7 @@
 import { JWT_TOKEN_COOKIE, JWT_TOKEN_SSR_ID } from "common/constants";
 import { Store as VueStore, CommitOptions, DispatchOptions } from "vuex";
 import Cookies from "js-cookie";
-import _ from "client/helpers/lodash";
+import _ from "client/core/helpers/lodash";
 
 export class Store {
     /** Keeping $store reference */

@@ -4,8 +4,8 @@
  */
 import { JWT_TOKEN_SSR_ID } from "common/constants";
 import { PublicAppConfig } from "common/public-app-config";
-import { ServerSettings } from "../types/app";
-import { PlainObject } from "../types/basic";
+import { ServerSettings } from "../../types/app";
+import { PlainObject } from "../../types/basic";
 
 export function initStoreFromServer(commit: (mutation: string, payload: PlainObject) => void, req: any, res: any) {
     if (req.user) {

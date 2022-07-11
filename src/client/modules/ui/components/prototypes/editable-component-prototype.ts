@@ -1,6 +1,6 @@
 import { ComponentOptions } from "client/types/editor";
 import { Component, Prop, Vue } from "nuxt-property-decorator";
-import _ from "client/helpers/lodash";
+import _ from "client/core/helpers/lodash";
 
 @Component({})
 export class EditableComponentPrototype extends Vue {

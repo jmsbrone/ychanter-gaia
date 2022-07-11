@@ -5,7 +5,7 @@
  * due to nuxtServerInit action not working with vuex-module-decorators.
  */
 
-import { initStoreFromServer } from "client/helpers/init-helper";
+import { initStoreFromServer } from "client/core/helpers/init-helper";
 
 export const actions = {
     nuxtServerInit({ commit }, { req, res }) {
