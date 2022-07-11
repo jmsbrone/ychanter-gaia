@@ -1,0 +1,15 @@
+version: '3.5'
+services:
+    node:
+        image: node:17.4
+        working_dir: "/app"
+        environment:
+            - HOST=0.0.0.0
+            - PORT=80
+        user: "node"
+        volumes:
+            - "./:/app"
+        ports:
+            - $SERVICE_PORT:80
+        command: "npm start"
+    restart: "always"
