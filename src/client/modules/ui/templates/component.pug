@@ -1,9 +1,0 @@
-include ./component-base.pug
-mixin wrapper(cols="12")
-    +wrapper-base("",cols)&attributes(attributes)
-        if block
-            block
-
-mixin component-list()
-    template(v-for="(block_data, index) in options[CHILDREN_FIELD_NAME]", v-if="block_data")
-        ComponentBlock.section-block.d-flex.pa-0(:section_data="block_data", :key="index")

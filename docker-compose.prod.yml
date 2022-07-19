@@ -11,5 +11,5 @@ services:
             - "./:/app"
         ports:
             - $SERVICE_PORT:80
-        command: "npm start"
-    restart: "always"
+        command: "node .output/server/index.mjs"
+        restart: "always"

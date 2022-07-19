@@ -1,7 +1,0 @@
-@mixin make-vendors($name, $value) {
-    $vendors: webkit moz o ms;
-    @each $vendor in $vendors {
-        -#{$vendor}-#{$name}: $value;
-    }
-    #{$name}: $value;
-}

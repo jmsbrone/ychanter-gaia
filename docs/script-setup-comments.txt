@@ -1,0 +1,60 @@
+For consistency and readability component setup should be grouped
+like following:
+
+/**
+ * --------------------------------------------------------
+ * Component definitions
+ * --------------------------------------------------------
+ */
+
+// Component definitions like defineProps, defineEmits, etc.
+
+/**
+ * --------------------------------------------------------
+ * General variables
+ * --------------------------------------------------------
+ */
+
+// Unwatched template and script variables for general use
+
+/**
+ * --------------------------------------------------------
+ * Template getters
+ * --------------------------------------------------------
+ */
+
+// Functions for usage in template
+
+/**
+ * --------------------------------------------------------
+ * Refs, states and watchers setup
+ * --------------------------------------------------------
+ */
+
+// Defining refs, reactive objects, useState() and watch()
+
+/**
+ * --------------------------------------------------------
+ * User interaction handlers
+ * --------------------------------------------------------
+ */
+
+// Functions that will run in response to user interaction
+
+/**
+ * --------------------------------------------------------
+ * Event handlers
+ * --------------------------------------------------------
+ */
+
+// Functions that will run in response to component events
+// that are not caused by the user directly
+
+/**
+ * --------------------------------------------------------
+ * Exposed methods
+ * --------------------------------------------------------
+ */
+
+// API methods and properties for the component that
+// can be accessed from parent component

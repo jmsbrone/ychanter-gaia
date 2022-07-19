@@ -1,8 +1,0 @@
-@use "~assets/styles/themes/index.scss" as theme;
-
-@each $theme in theme.$themes {
-    .wrapper.theme-#{$theme} {
-        background-color: inherit;
-        color: theme.getTextColor($theme);
-    }
-}
