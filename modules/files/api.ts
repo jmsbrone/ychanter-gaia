@@ -1,4 +1,4 @@
-import { CreatePlaylistDto } from "./dto/playlist";
+import { CreatePlaylistDto, DeletePlaylistDto } from "./dto/playlist";
 import { AudioFile } from "./types/audio-file";
 import { Gallery } from "./types/gallery";
 import { Image } from "./types/image";
@@ -75,6 +75,13 @@ export interface PlaylistAPI {
      * @param data
      */
     save(data: CreatePlaylistDto): Promise<Playlist>;
+
+    /**
+     * Deletes playlist.
+     *
+     * @param deleteDto
+     */
+    delete(deleteDto: DeletePlaylistDto): Promise<boolean>;
 }
 
 export interface AudioFileAPI {

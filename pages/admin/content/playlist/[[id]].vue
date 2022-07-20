@@ -1,25 +1,31 @@
 <template lang="pug">
 v-progress-circular(v-if="!playlist", indeterminate)
 v-container(v-else, fluid)
-    div.d-flex.align-center.ma-4
-        v-btn(:icon="$ycIcon('back')", nuxt, to="/admin/content/playlists")
-        .text-h6 Editing playlist "{{ playlist.name }}" ({{ playlist.tracks.length }}
-            v-icon(:icon="$ycIcon('playlist')")
-            | )
+    .d-flex.flex-row.align-center
+        v-btn.mx-2(:icon="$ycIcon('back')", nuxt, to="/admin/content/playlists", color="secondary")
+        .text-h6
+            span Editing playlist
+            v-icon.mx-2(:icon="$ycIcon('playlist')")
+            span "{{ playlist.name }}" ({{ playlist.tracks.length }} tracks)
         v-spacer
-        v-btn(@click="addTracks()")
+        v-btn(@click="addTracks()", color="primary")
             v-icon(:icon="$ycIcon('add')")
             span Add Tracks
         ui-form-field-audio(ref="tracksInput", v-show="false", :config="tracksInputFieldConfig", name="", v-model="newTracks")
-    v-divider.mb-2
-    v-list(dense)
-        v-list-item(v-for="track in playlist.tracks", :key="track.name", :value="track")
-            template(v-slot:prepend)
-                v-icon(:icon="$ycIcon('playlist_track')")
-            v-row.ml-2(no-gutters).align-center
-                v-btn.ma-2(:icon="$ycIcon('play_track')", @click.stop="playTrack(track)")
-                .text-body-1 {{ track.name }}
-
+    v-divider.my-2
+    v-list
+        template(v-for="track in playlist.tracks",:key="track.name")
+            v-list-item(
+                :value="track",
+                :class='["bg-" + (isCurrentTrack(track) ? "secondary-darken-2" : "surface")]',
+                variant="flat"
+            )
+                template(v-slot:prepend)
+                    v-icon(:icon="$ycIcon('playlist_track')")
+                v-row.ml-2(no-gutters).align-center
+                    v-btn.mx-2(:icon="$ycIcon(isCurrentTrack(track) && globalPlayer.playing ? 'pause_track' : 'play_track')", @click.stop="playTrack(track)", variant="plain")
+                    .text-body-1 {{ track.name }}
+            v-divider.bg-secondary
 </template>
 
 <script setup lang="ts">
@@ -58,13 +64,9 @@ const tracksInputFieldConfig = {
 } as FormAudioFieldConfig;
 const globalLoader = useGlobalLoader();
 
-/**
- * --------------------------------------------------------
- * Template getters
- * --------------------------------------------------------
- */
-
-// Functions for usage in template
+function isCurrentTrack(track: AudioFile): boolean {
+    return track.file.id === globalPlayer.currentTrackId;
+}
 
 /**
  * --------------------------------------------------------
@@ -96,7 +98,7 @@ watch(newTracks, async (newValue) => {
     }
 
     const uploadObservable = new Subject<number>();
-    globalLoader.showProgress(`adding tracks`, uploadStats.totalChunks, uploadObservable);
+    globalLoader.showProgress("adding tracks to playlist", uploadStats.totalChunks, uploadObservable);
     for (let i = 0; i < uploadDtos.length; ++i) {
         const uploadData = uploadDtos[i];
         uploadData.upload_observer.subscribe({
@@ -124,24 +126,16 @@ function addTracks() {
 }
 
 function playTrack(track: AudioFile) {
-    globalPlayer.playTrackFromPlaylist(playlist.value, track);
+    if (isCurrentTrack(track)) {
+        globalPlayer.togglePlaying();
+    } else {
+        globalPlayer.playTrackFromPlaylist(playlist.value, track);
+    }
 }
-
-/**
- * --------------------------------------------------------
- * Event handlers
- * --------------------------------------------------------
- */
-
-// Functions that will run in response to component events
-// that are not caused by the user directly
-
-/**
- * --------------------------------------------------------
- * Exposed methods
- * --------------------------------------------------------
- */
-
-// API methods and properties for the component that
-// can be accessed from parent component
 </script>
+
+<style lang="scss" scoped>
+.playlist-track-container {
+    box-shadow: 0px 0px 4px rgba(var(--v-theme-secondary-darken-2));
+}
+</style>

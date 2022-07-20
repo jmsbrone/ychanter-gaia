@@ -34,6 +34,7 @@ export class MdIconService implements IconServiceInterface {
         player_next: "skip_next",
         player_previous: "skip_previous",
         open_web_page: "open_in_new",
+        repeat_track: "repeat_one",
     };
     private missing_icon = "report_problem";
 

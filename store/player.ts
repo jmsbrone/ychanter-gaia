@@ -22,8 +22,15 @@ export const useMediaPlayerStore = defineStore({
             currentPlaylist: null,
         } as StoreState;
     },
+    getters: {
+        currentTrackId(): number | null {
+            if (this.currentTrackIndex !== null) {
+                return this.queue[this.currentTrackIndex]?.file.id;
+            }
+        },
+    },
     actions: {
-        playTrackFromPlaylist(this: StoreState,  playlist: Playlist, track: AudioFile) {
+        playTrackFromPlaylist(this: StoreState, playlist: Playlist, track: AudioFile) {
             if (!this.currentPlaylist || this.currentPlaylist.id !== playlist.id) {
                 this.currentPlaylist = playlist;
                 this.queue = playlist.tracks;
@@ -31,6 +38,9 @@ export const useMediaPlayerStore = defineStore({
 
             this.currentTrackIndex = _.findIndex(this.queue, (queueTrack) => queueTrack.file.id === track.file.id);
             this.playing = true;
+        },
+        togglePlaying() {
+            this.playing = !this.playing;
         },
     },
 });

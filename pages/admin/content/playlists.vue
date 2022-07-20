@@ -3,20 +3,22 @@ v-container(fluid)
     .d-flex.flex-row
         .text-h4 Playlist manager
         v-spacer
-        v-btn(@click="openDialog()")
+        v-btn(@click="openDialog()", color="primary")
             v-icon(:icon="$ycIcon('add')")
-            .text-body-1 Add playlist
+            span Add playlist
     v-divider.my-2
     v-list(v-if="playlists")
-        v-list-item(v-for="playlist in playlists", :key="playlist.id", :title="playlist.name", :value="playlist")
-            template(v-slot:prepend)
-                div.d-flex.pr-4.align-center
-                    v-icon(:icon="$ycIcon('playlist')")
-            template(v-slot:append)
-                v-btn(nuxt, :to="`/admin/content/playlist/${playlist.id}`")
-                    v-icon(:icon="$ycIcon('edit')")
-                v-btn
-                    v-icon(:icon="$ycIcon('delete')")
+        template(v-for="(playlist,index) in playlists", :key="playlist.id")
+            v-list-item( :title="playlist.name", :value="playlist")
+                template(v-slot:prepend)
+                    div.d-flex.pr-4.align-center
+                        v-icon(:icon="$ycIcon('playlist')")
+                template(v-slot:append)
+                    .d-flex.flex-row.bg-secondary.rounded-lg.px-1
+                        v-btn(nuxt, :to="`/admin/content/playlist/${playlist.id}`", :icon="$ycIcon('edit')", variant="plain")
+                        v-divider(vertical)
+                        v-btn(@click.stop="deletePlaylist(index)", :icon="$ycIcon('delete')", variant="plain")
+            v-divider.bg-secondary
 
     v-dialog(v-model="addingPlaylist", persistent)
         v-card.pa-4
@@ -80,6 +82,7 @@ const formData = {
 
 const globalLoader = useGlobalLoader();
 const notification = useAppNotification();
+const confirmationDialog = useConfirmationDialog();
 const playlists = ref(await service.getAll());
 const addingPlaylist = ref(false);
 
@@ -109,9 +112,31 @@ async function addPlaylist() {
     globalLoader.close();
 }
 
+function deletePlaylist(index: number) {
+    const playlist = playlists.value[index];
+    confirmationDialog.confirm(
+        `Deleting playlist ${playlist.name}`,
+        "Are you sure? This action cannot be undone.",
+        async () => {
+            if (await service.delete({ id: playlist.id })) {
+                playlists.value.splice(index, 1);
+                notification.showSuccess("Playlist deleted");
+            } else {
+                notification.showError("Cannot delete playlist");
+            }
+        }
+    );
+}
+
 /**
  * --------------------------------------------------------
  * Event handlers
  * --------------------------------------------------------
  */
 </script>
+
+<style lang="scss" scoped>
+.playlist-item-container {
+    box-shadow: 0px 0px 2px rgba(var(--v-theme-secondary-darken-2));
+}
+</style>

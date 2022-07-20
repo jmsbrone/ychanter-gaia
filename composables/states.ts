@@ -18,21 +18,22 @@ export const useAppNotificationState = () =>
 export function useAppNotification() {
     const notification = useAppNotificationState();
 
+    function showNotification(text: string, type: "success" | "info" | "warning" | "error") {
+        _.assign(notification.value, { open: true, text, type });
+    }
+
     return {
         showError(text: string) {
-            notification.value.open = true;
-            notification.value.text = text;
-            notification.value.type = "error";
+            showNotification(text, "error");
         },
         showSuccess(text: string) {
-            notification.value.open = true;
-            notification.value.text = text;
-            notification.value.type = "success";
+            showNotification(text, "success");
         },
         showInfo(text: string) {
-            notification.value.open = true;
-            notification.value.text = text;
-            notification.value.type = "info";
+            showNotification(text, "info");
+        },
+        showWarning(text: string) {
+            showNotification(text, "warning");
         },
     };
 }

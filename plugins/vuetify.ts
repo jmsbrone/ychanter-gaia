@@ -12,9 +12,9 @@ const appDarkTheme: ThemeDefinition = {
         primary: "#EE82EE",
         secondary: "#008080",
         accent: "#CCAD00",
-        error: "#B00020",
-        info: "#2196F3",
-        success: "#4CAF50",
+        error: "#D22B2B",
+        info: "#77FFFF",
+        success: "#50C878",
         warning: "#FB8C00",
     },
 };

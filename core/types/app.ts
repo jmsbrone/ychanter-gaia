@@ -7,7 +7,7 @@ export class ServerSettings {
 export type AppNotification = {
     open: boolean;
     text: string;
-    type: "error" | "info" | "success";
+    type: "error" | "info" | "success" | "warning";
 };
 
 export type PageComponentProps = {

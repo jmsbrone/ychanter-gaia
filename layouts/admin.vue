@@ -27,7 +27,7 @@ v-layout
         v-main
             v-sheet.ma-2.pa-6.rounded-lg
                 NuxtPage
-            v-snackbar(v-model="notificationState.open", location="top", timeout="5000", transition="fade-transition")
+            v-snackbar(v-model="notificationState.open", location="top", timeout="3000", transition="fade-transition")
                 div.text-body-1(:class="getClassForNotification()")
                     v-icon(:icon="$ycIcon(getIconForNotification())")
                     span.ml-2.my-auto {{ notificationState.text }}
@@ -61,16 +61,17 @@ v-layout
             )
             v-row.flex-row.align-center(no-gutters, v-if="currentPlayerTrack")
                 v-btn.ml-2(:icon="$ycIcon('player_previous')", @click="playPrevious()", variant="outlined")
-                v-btn(:icon="$ycIcon(player.playing ? 'player_pause' : 'player_play')", @click="togglePlayState()", color="yellow")
+                v-btn.mx-1(:icon="$ycIcon(player.playing ? 'player_pause' : 'player_play')", @click="togglePlayState()", variant="outlined")
                 v-btn.mr-2(:icon="$ycIcon('player_next')", @click="playNext()", variant="outlined")
                 v-col
                     .d-flex.flex-column.flex-auto
                         .text-body-2.font-weight-bold {{ currentPlayerTrack.name }}
-                        v-progress-linear.my-1(:modelValue="currentTrackTime / currentTrackDuration * 100", color="yellow", bg-color="primary-lighten-2")
+                        v-progress-linear.my-1(:modelValue="currentTrackTime / currentTrackDuration * 100", color="accent", bg-color="primary-lighten-2")
                         .d-flex.flex-row
-                            .text-subtitle-2 {{ Math.floor(currentTrackTime / 60) }}:{{ currentTrackTime < 10 ? '0' : '' }}{{ Math.ceil(currentTrackTime % 60) }}
+                            .text-subtitle-2 {{ Math.floor(currentTrackTime / 60) }}:{{ (currentTrackTime % 60) < 10 ? '0' : '' }}{{ Math.floor(currentTrackTime % 60) }}
                             v-spacer
-                            .text-subtitle-2 {{ Math.floor(currentTrackDuration / 60) }}:{{ currentTrackDuration < 10 ? '0' : '' }}{{ Math.ceil(currentTrackDuration % 60)}}
+                            .text-subtitle-2 {{ Math.floor(currentTrackDuration / 60) }}:{{ (currentTrackDuration % 60) < 10 ? '0' : '' }}{{ Math.ceil(currentTrackDuration % 60)}}
+                v-btn.mx-2(:icon="$ycIcon('repeat_track')", :variant="player.loopOne ? 'outlined' : 'plain'", @click="toggleTrackLooping()")
 </template>
 
 <script setup lang="ts">
@@ -101,6 +102,8 @@ function getClassForNotification() {
             return "text-success";
         case "info":
             return "text-info";
+        case "warning":
+            return "text-warning";
     }
 }
 
@@ -165,17 +168,17 @@ function closeNotification() {
     notificationState.value.open = false;
 }
 
-function onConformationDialogConfirm() {
+async function onConformationDialogConfirm() {
     if (confirmationDialogState.value.confirmCallback) {
-        confirmationDialogState.value.confirmCallback();
+        await confirmationDialogState.value.confirmCallback();
     }
 
     confirmationDialogState.value.open = false;
 }
 
-function onConformationDialogCancel() {
+async function onConformationDialogCancel() {
     if (confirmationDialogState.value.cancelCallback) {
-        confirmationDialogState.value.cancelCallback();
+        await confirmationDialogState.value.cancelCallback();
     }
 
     confirmationDialogState.value.open = false;
@@ -201,6 +204,10 @@ function playNext() {
     player.currentTrackIndex = newIndex;
 }
 
+function toggleTrackLooping() {
+    player.loopOne = !player.loopOne;
+}
+
 /**
  * --------------------------------------------------------
  * Event handlers
@@ -208,11 +215,15 @@ function playNext() {
  */
 
 function onTrackEnded() {
-    let newIndex = player.currentTrackIndex + 1;
-    if (newIndex >= player.queue.length) {
-        newIndex = 0;
+    if (player.loopOne) {
+        playerElement.value.play();
+    } else {
+        let newIndex = player.currentTrackIndex + 1;
+        if (newIndex >= player.queue.length) {
+            newIndex = 0;
+        }
+        player.currentTrackIndex = newIndex;
     }
-    player.currentTrackIndex = newIndex;
 }
 
 onMounted(() => {
@@ -231,6 +242,6 @@ onBeforeUnmount(() => {
 
 <style lang="scss">
 .app-footer {
-    box-shadow: 0 -2px 10px yellow;
+    box-shadow: 0 -2px 10px rgba(var(--v-theme-accent));
 }
 </style>
