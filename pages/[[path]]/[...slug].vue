@@ -38,7 +38,10 @@ if (!process.server) {
     } else if (route.params.slug) {
         pathParts.push(route.params.slug);
     }
-    const pagePath = "/" + pathParts.join("/") + "/";
+    let pagePath = "/" + pathParts.join("/") + "/";
+    if (pagePath == "//") {
+        pagePath = "/";
+    }
     page = ref(await service.getByPath(pagePath));
 }
 
