@@ -46,12 +46,12 @@ v-layout
                     v-card-text
                         v-row(no-gutters).justify-center
                             template(v-if="globalLoaderState.indeterminate")
-                                v-progress-linear(indeterminate)
+                                v-progress-linear(indeterminate, color="accent")
                             template(v-else)
-                                v-progress-linear(:model-value="globalLoaderState.progressCurrent / globalLoaderState.progressTotal * 100", :height="25")
+                                v-progress-linear(:model-value="globalLoaderState.progressCurrent / globalLoaderState.progressTotal * 100", :height="25", color="accent", bg-color="secondary")
                                     template(v-slot:default="{value}")
-                                        strong {{ Math.round(value) }}%
-                            .text-subtitle-1 {{ globalLoaderState.text }}
+                                        strong.text-foreground-text {{ Math.round(value) }}%
+                            .text-subtitle-1.mt-1 {{ globalLoaderState.text }}
         v-footer.app-footer(app, v-show="currentPlayerTrack")
             audio(
                 @ended="onTrackEnded()",

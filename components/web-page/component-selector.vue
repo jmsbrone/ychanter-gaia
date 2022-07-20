@@ -12,7 +12,7 @@ v-dialog(v-model="selection_dialog")
             v-window-item(v-for="(group, $index) in tabs", :key="$index", :value="$index")
                 v-container(fluid)
                     v-row
-                        v-col(cols="3", v-for="(item, $item_index) in group.items", :key="$item_index")
+                        v-col(cols="4", v-for="(item, $item_index) in group.items", :key="$item_index")
                             v-card(@click="selectItem(item)")
                                 v-card-text.d-flex.justify-center {{ item.selector_text }}
 </template>

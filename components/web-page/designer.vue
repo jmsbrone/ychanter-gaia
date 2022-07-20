@@ -2,13 +2,17 @@
 v-progress-circular(v-if="!page", indeterminate)
 v-container(v-else, fluid)
     v-row(no-gutters).align-center
-        v-btn.my-2(@click="savePage()", color="primary")
+        v-btn(@click="savePage()", color="primary")
             v-icon(:icon="$ycIcon('save')")
             span.ml-2 Save
-        v-btn.ma-2.mr-1(@click="undo()", color="secondary", :disabled="!editorHistoryStore.previousState")
-            v-icon(:icon="$ycIcon('undo')")
-        v-btn.my-2(@click="redo()", color="secondary", :disabled="!editorHistoryStore.nextState")
-            v-icon(:icon="$ycIcon('redo')")
+        .mx-1
+            v-btn(@click="undo()", color="secondary-lighten-1", :disabled="!editorHistoryStore.previousState")
+                v-icon(:icon="$ycIcon('undo')")
+            v-tooltip(activator="parent", location="bottom") Revert changes
+        div
+            v-btn(@click="redo()", color="secondary", :disabled="!editorHistoryStore.nextState")
+                v-icon(:icon="$ycIcon('redo')")
+            v-tooltip(activator="parent", location="bottom") Re-apply changes
         v-switch.ml-2(color="secondary", v-model="editorStore.edit_border_on", hide-details, label="Borders")
     v-container.mt-4.page-content-container(fluid)
         template(v-for="(componentOptions, index) in editorStore.pageBlocks", :key="index")

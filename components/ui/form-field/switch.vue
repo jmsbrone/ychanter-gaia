@@ -1,11 +1,8 @@
 <template lang="pug">
-v-text-field(:label="config.name", v-model="value", :rules="validator.rules")
+v-switch(:label="name", v-model="value")
 </template>
 
 <script setup lang="ts">
-import { FormValidator } from "../../../core/classes/form-validator";
-import type { FormNumberFieldConfig } from "../../../core/types/editor";
-
 /**
  * --------------------------------------------------------
  * Component definitions
@@ -13,18 +10,11 @@ import type { FormNumberFieldConfig } from "../../../core/types/editor";
  */
 
 const props = defineProps<{
+    name: string;
     modelValue?: string;
-    config: FormNumberFieldConfig;
+    rules?: any[];
 }>();
 const emit = defineEmits(["update:modelValue"]);
-
-/**
- * --------------------------------------------------------
- * General variables
- * --------------------------------------------------------
- */
-
-const validator = new FormValidator(props.config);
 
 /**
  * --------------------------------------------------------

@@ -7,6 +7,7 @@ import { aliases, md } from "vuetify/iconsets/md";
 const appDarkTheme: ThemeDefinition = {
     dark: true,
     colors: {
+        "foreground-text": "FFFFFF",
         background: "#008080",
         surface: "#202020",
         primary: "#EE82EE",

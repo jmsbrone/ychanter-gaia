@@ -16,25 +16,40 @@ v-file-input(
 import { FormValidator } from "../../../core/classes/form-validator";
 import type { FormAudioFieldConfig } from "../../../core/types/editor";
 
-const props = defineProps<{
-    name: string;
-    modelValue?: any;
-    config: FormAudioFieldConfig;
-}>();
-const emit = defineEmits(["update:modelValue"]);
-
-const validator = new FormValidator(props.config);
-
-const value = ref(props.modelValue);
-watch(value, (newValue) => {
-    emit("update:modelValue", newValue);
-});
-
-const input = ref(null);
+/**
+ * --------------------------------------------------------
+ * Component definitions
+ * --------------------------------------------------------
+ */
 
 defineExpose({
     click() {
         input.value.click();
     },
+});
+const props = defineProps<{
+    modelValue?: any;
+    config: FormAudioFieldConfig;
+}>();
+const emit = defineEmits(["update:modelValue"]);
+
+/**
+ * --------------------------------------------------------
+ * General variables
+ * --------------------------------------------------------
+ */
+
+const validator = new FormValidator(props.config);
+
+/**
+ * --------------------------------------------------------
+ * Refs, states and watchers setup
+ * --------------------------------------------------------
+ */
+
+const input = ref(null);
+const value = ref(props.modelValue);
+watch(value, (newValue) => {
+    emit("update:modelValue", newValue);
 });
 </script>

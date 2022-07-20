@@ -2,7 +2,7 @@
 v-form(ref="form")
     v-row
         v-col(cols="12", v-for="(config, name) in props.config", :type="config.type", :key="name")
-            component(:is="getComponentByType(config.type)", v-model="formData[name]", :rules="getRulesForField(config)", :name="config.name")
+            component(:is="getComponentByType(config.type)", v-model="formData[name]", :config="config")
 </template>
 
 <script setup lang="ts">
@@ -41,6 +41,12 @@ function getComponentByType(type: FieldType) {
             break;
         case FieldType.number:
             typeFieldName = "number";
+            break;
+        case FieldType.switch:
+            typeFieldName = "switch";
+            break;
+        case FieldType.select:
+            typeFieldName = "select";
             break;
     }
     const fieldName = fieldNameBase + "." + typeFieldName;

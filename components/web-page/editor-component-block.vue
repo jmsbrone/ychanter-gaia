@@ -1,21 +1,25 @@
 <template lang="pug">
-div.component-container(:class="{'editor_borders_on': editorStore.edit_border_on}")
-    component(:is="component", :options="options", :editorBlock="editorBlock")
-    .controls-container.d-flex.align-center.justify-center
-        v-btn(v-if="hasOptions", @click="editComponentOptions()")
-            v-icon(:icon="$ycIcon('edit')")
-        v-btn(@click="deleteComponent()")
-            v-icon(:icon="$ycIcon('delete')")
+v-hover(v-slot="{ isHovering, props }")
+    div.component-container(:class="{'editor_borders_on': editorStore.edit_border_on}", v-bind="props")
+        component(:is="component", :options="options", :editorBlock="editorBlock")
+        .controls-container.d-flex.flex-row.align-center.justify-center.bg-secondary(v-if="isHovering")
+            v-btn(v-if="hasOptions", @click="editComponentOptions()", :icon="$ycIcon('edit')", variant="plain")
+            v-divider(vertical)
+            v-btn(@click="deleteComponent()", :icon="$ycIcon('delete')", variant="plain")
 
 v-dialog(v-if="optionsDialogOpen", :modelValue="true")
     v-container
-        v-card
+        v-card.pa-2
             v-card-title Editing options for component {{ editorBlock.name }}
             v-card-text
                 ui-form(ref="optionsForm", :config="getFormConfig()", v-model="optionsFormData")
-            v-card-actions
-                v-btn(color="primary", @click="saveOptions()") Save
-                v-btn(color="secondary", @click="optionsDialogOpen = false") Close
+            v-card-actions.justify-center
+                v-btn(color="primary", @click="saveOptions()")
+                    v-icon(:icon="$ycIcon('save')")
+                    | Save
+                v-btn(color="secondary", @click="optionsDialogOpen = false")
+                    v-icon(:icon="$ycIcon('close')")
+                    | Close
 </template>
 
 <script setup lang="ts">
@@ -77,6 +81,7 @@ function editOptions() {
 
 const options = ref(initialOptions);
 const optionsDialogOpen = ref(false);
+const hoveringState = ref(false);
 
 /**
  * --------------------------------------------------------
@@ -87,6 +92,7 @@ const optionsDialogOpen = ref(false);
 function saveOptions() {
     editorStore.updateBlock({ id: props.editorBlock.id, options: optionsFormData });
     optionsDialogOpen.value = false;
+    _.assign(options.value, optionsFormData);
 }
 
 function editComponentOptions() {
@@ -107,14 +113,15 @@ function deleteComponent() {
  */
 
 onBeforeMount(() => {
-    if (hasOptions) {
+    if (!hasOptions) {
         return;
     }
     if (editorStore.last_generated_component_id === props.editorBlock.id) {
         editOptions();
     }
-    editorStore.$subscribe(() => {
+    editorStore.$subscribe((mutation, state) => {
         options.value = editorStore.blockOptions(props.editorBlock.id);
+        console.log(options.value);
     });
 });
 </script>
@@ -123,7 +130,7 @@ onBeforeMount(() => {
 .controls-container {
     position: absolute;
     z-index: 900;
-    right: 0px;
+    left: 50%;
     top: 0px;
     width: auto;
     opacity: 0.9;
