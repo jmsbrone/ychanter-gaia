@@ -18,9 +18,9 @@ v-card(flat)
 
 <script setup lang="ts">
 import _ from "lodash";
-import { DIContainer } from "../../core/port-manager";
-import type { AppNotification } from "../../core/types/app";
-import type { WebPagesAPI } from "../../modules/web-pages/api";
+import { DIContainer } from "../../../core/port-manager";
+import type { AppNotification } from "../../../core/types/app";
+import type { WebPagesAPI } from "../../../modules/web-pages/api";
 
 /**
  * --------------------------------------------------------

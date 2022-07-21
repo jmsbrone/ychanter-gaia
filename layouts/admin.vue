@@ -9,21 +9,14 @@ v-layout
             v-spacer
             v-btn(variant="text", :icon="$ycIcon('dots-vertical')")
         v-navigation-drawer
-            v-list.text-h5(nav, color="secondary")
-                v-list-item(nuxt, to="/admin", exact)
-                    v-list-item-icon(:icon="$ycIcon('home')")
-                    v-list-item-title.pl-2.font-weight-bold Home
-                v-divider
-                v-list-item(nuxt, to="/admin/web-pages", exact)
-                    v-list-item-icon(:icon="$ycIcon('webpage_tree')")
-                    v-list-item-title.pl-2.font-weight-bold Web pages
-                v-list-item(nuxt, to="/admin/content", exact)
-                    v-list-item-icon(:icon="$ycIcon('content')")
-                    v-list-item-title.pl-2.font-weight-bold Content
-                v-divider
-                v-list-item(nuxt, to="/admin/settings", exact)
-                    v-list-item-icon(:icon="$ycIcon('settings')")
-                    v-list-item-title.pl-2.font-weight-bold Settings
+            v-list(nav, color="secondary")
+                template(v-for="(menuGroup, code) in leftMenu.getItems()", :key="code")
+                    .text-h6(v-if="menuGroup.name") {{ menuGroup.name }}
+                    template(v-for="(menuItem, index) in menuGroup.items", :key="index")
+                        v-list-item(nuxt, :to="menuItem.path", exact)
+                            v-list-item-icon(:icon="$ycIcon(menuItem.icon)")
+                            v-list-item-title.pl-2.font-weight-bold {{ menuItem.title }}
+                    v-divider
         v-main
             v-sheet.ma-2.pa-6.rounded-lg
                 NuxtPage
@@ -48,7 +41,12 @@ v-layout
                             template(v-if="globalLoaderState.indeterminate")
                                 v-progress-linear(indeterminate, color="accent")
                             template(v-else)
-                                v-progress-linear(:model-value="globalLoaderState.progressCurrent / globalLoaderState.progressTotal * 100", :height="25", color="accent", bg-color="secondary")
+                                v-progress-linear(
+                                    :model-value="globalLoaderState.progressCurrent / globalLoaderState.progressTotal * 100",
+                                    :height="25",
+                                    color="accent",
+                                    bg-color="secondary"
+                                )
                                     template(v-slot:default="{value}")
                                         strong.text-foreground-text {{ Math.round(value) }}%
                             .text-subtitle-1.mt-1 {{ globalLoaderState.text }}
@@ -122,6 +120,8 @@ const notification = useAppNotification();
 const confirmationDialogState = useConfirmationDialogState();
 const globalLoaderState = useGlobalLoaderState();
 const player = useMediaPlayerStore();
+const leftMenu = useAdminLeftMenu();
+
 const playerElement: Ref<HTMLAudioElement> = ref(null);
 const currentPlayerTrack: Ref<AudioFile> = ref(null);
 const currentTrackTime: Ref<number> = ref(0);
@@ -228,7 +228,7 @@ function onTrackEnded() {
 
 onMounted(() => {
     playerTrackIntervalWatcherId = setInterval(() => {
-        if (currentPlayerTrack.value) {
+        if (currentPlayerTrack.value && playerElement.value) {
             currentTrackTime.value = playerElement.value.currentTime;
             currentTrackDuration.value = playerElement.value.duration;
         }

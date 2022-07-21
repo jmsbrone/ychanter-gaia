@@ -5,7 +5,7 @@ import { ComponentConfig, ComponentGroup } from "../../../core/types/editor";
  * Can be used as a placeholder.
  */
 export const DummyComponentConfig = {
-    name: "web-page:utils.dummy",
+    name: "web-pages:utils.dummy",
     editor_description: "",
     selector_text: "",
     has_children: false,

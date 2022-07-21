@@ -11,9 +11,9 @@ import {
     FormConfig,
 } from "../../../core/types/editor";
 import { FieldType } from "../../../core/types/field-type-enum";
-import { ContainerComponentConfig } from "../components/container";
-import { DummyComponentConfig } from "../components/dummy";
-import { ContentTextComponentConfig } from "../components/text";
+import { ContainerComponentConfig } from "../component_configs/container";
+import { DummyComponentConfig } from "../component_configs/dummy";
+import { ContentTextComponentConfig } from "../component_configs/text";
 
 /**
  * @constant BLOCK_ID_LENGTH Length of string with generated component block id

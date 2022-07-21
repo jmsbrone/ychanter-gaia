@@ -19,8 +19,8 @@ v-dialog(v-model="selection_dialog")
 
 <script setup lang="ts">
 import _ from "lodash";
-import { ComponentGroup } from "../../core/types/editor";
-import { EditorHelper } from "../../modules/web-pages/helpers/editor-helper";
+import { ComponentGroup } from "../../../core/types/editor";
+import { EditorHelper } from "../helpers/editor-helper";
 
 const emit = defineEmits(["selected"]);
 

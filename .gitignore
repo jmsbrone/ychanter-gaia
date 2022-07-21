@@ -8,3 +8,5 @@ node_modules
 dist
 local_registry
 deploy
+
+modules.json

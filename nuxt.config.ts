@@ -1,5 +1,6 @@
 import { defineNuxtConfig } from "nuxt";
 import dynamicImport from "vite-plugin-dynamic-import";
+import modules from "./modules.json";
 
 export default defineNuxtConfig({
     css: ["vuetify/lib/styles/main.sass"],
@@ -7,6 +8,7 @@ export default defineNuxtConfig({
         transpile: ["vuetify"],
     },
     buildModules: [["@pinia/nuxt", { disableVuex: true }]],
+    modules: modules,
     vite: {
         define: {
             "process.env.DEBUG": false,
@@ -19,4 +21,8 @@ export default defineNuxtConfig({
         },
         backendApi: process.env.PRIVATE_BACKEND_URL,
     },
+    components: [
+        { path: "~/components", global: true },
+        { path: "~/modules/ui/components", global: true },
+    ],
 });

@@ -2,7 +2,7 @@ import { ComponentConfig, ComponentGroup } from "../../../core/types/editor";
 import { FieldType } from "../../../core/types/field-type-enum";
 
 export const ContentTextComponentConfig = {
-    name: "web-page:content.text",
+    name: "web-pages:content.text",
     editor_description: "Simple text block",
     selector_text: "Text",
     has_children: false,

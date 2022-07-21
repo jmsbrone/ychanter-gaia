@@ -30,9 +30,9 @@ v-dialog(v-model="dialogOpen", persistent)
 </template>
 
 <script setup lang="ts">
-import { DIContainer } from "../../core/port-manager";
-import type { WebPagesAPI } from "../../modules/web-pages/api";
-import { CreateWebPageDto } from "../../modules/web-pages/dto/web-page-dto";
+import { DIContainer } from "../../../core/port-manager";
+import type { WebPagesAPI } from "../../../modules/web-pages/api";
+import { CreateWebPageDto } from "../../../modules/web-pages/dto/web-page-dto";
 
 /**
  * --------------------------------------------------------

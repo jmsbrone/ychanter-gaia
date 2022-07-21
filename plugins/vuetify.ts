@@ -1,7 +1,6 @@
 import { createVuetify, ThemeDefinition } from "vuetify";
 import * as components from "vuetify/components";
 import * as directives from "vuetify/directives";
-import { mdi } from "vuetify/iconsets/mdi";
 import { aliases, md } from "vuetify/iconsets/md";
 
 const appDarkTheme: ThemeDefinition = {
@@ -39,7 +38,6 @@ export default defineNuxtPlugin((nuxtApp) => {
             defaultSet: "md",
             aliases,
             sets: {
-                mdi,
                 md,
             },
         },

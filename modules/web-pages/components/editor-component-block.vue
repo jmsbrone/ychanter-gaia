@@ -24,10 +24,10 @@ v-dialog(v-if="optionsDialogOpen", :modelValue="true")
 
 <script setup lang="ts">
 import _ from "lodash";
-import { ComponentLoaderHelper } from "../../core/helpers/component-loader";
-import type { EditorTreeNode } from "../../core/types/editor";
-import { EditorHelper } from "../../modules/web-pages/helpers/editor-helper";
-import { useEditorStore } from "../../store/editor";
+import { ComponentLoaderHelper } from "../../../core/helpers/component-loader";
+import type { EditorTreeNode } from "../../../core/types/editor";
+import { EditorHelper } from "../../../modules/web-pages/helpers/editor-helper";
+import { useEditorStore } from "../store/editor";
 
 /**
  * --------------------------------------------------------
@@ -81,7 +81,6 @@ function editOptions() {
 
 const options = ref(initialOptions);
 const optionsDialogOpen = ref(false);
-const hoveringState = ref(false);
 
 /**
  * --------------------------------------------------------

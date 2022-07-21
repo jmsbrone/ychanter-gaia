@@ -1,10 +1,11 @@
 <template lang="pug">
-v-text-field(:label="config.name", v-model="value", :rules="validator.rules")
+component(:is="component", :options="options")
 </template>
 
 <script setup lang="ts">
-import { FormValidator } from "../../../core/classes/form-validator";
-import type { FormNumberFieldConfig } from "../../../core/types/editor";
+import _ from "lodash";
+import { ComponentLoaderHelper } from "../../../core/helpers/component-loader";
+import type { ComponentOptions } from "../../../core/types/editor";
 
 /**
  * --------------------------------------------------------
@@ -13,10 +14,9 @@ import type { FormNumberFieldConfig } from "../../../core/types/editor";
  */
 
 const props = defineProps<{
-    modelValue?: string;
-    config: FormNumberFieldConfig;
+    name: string;
+    options: ComponentOptions;
 }>();
-const emit = defineEmits(["update:modelValue"]);
 
 /**
  * --------------------------------------------------------
@@ -24,7 +24,7 @@ const emit = defineEmits(["update:modelValue"]);
  * --------------------------------------------------------
  */
 
-const validator = new FormValidator(props.config);
+const component = ComponentLoaderHelper.getComponent(props.name);
 
 /**
  * --------------------------------------------------------
@@ -32,6 +32,5 @@ const validator = new FormValidator(props.config);
  * --------------------------------------------------------
  */
 
-const value = ref(props.modelValue || "");
-watch(value, (newValue) => emit("update:modelValue", newValue));
+const options = ref(props.options);
 </script>

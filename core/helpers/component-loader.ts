@@ -16,9 +16,11 @@ export class ComponentLoaderHelper {
         if (!this.cachedPath[name]) {
             const nameGroups = name.split(":");
             const module = nameGroups[0];
-            const path = _.join([module, "/", nameGroups[1].replace(".", "/")], "");
+            const componentName = _.join([nameGroups[1].replace(".", "/")], "");
 
-            this.cachedPath[name] = defineAsyncComponent(() => import(`./../../components/${path}`));
+            this.cachedPath[name] = defineAsyncComponent(
+                () => import(`./../../modules/${module}/components/${componentName}`)
+            );
         }
 
         return this.cachedPath[name];

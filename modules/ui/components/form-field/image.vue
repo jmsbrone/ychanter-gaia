@@ -13,8 +13,8 @@ v-file-input(
 </template>
 
 <script setup lang="ts">
-import { FormValidator } from "../../../core/classes/form-validator";
-import type { FormFileFieldConfig } from "../../../core/types/editor";
+import { FormValidator } from "../../../../core/classes/form-validator";
+import type { FormImageFieldConfig } from "../../../../core/types/editor";
 
 /**
  * --------------------------------------------------------
@@ -29,7 +29,7 @@ defineExpose({
 });
 const props = defineProps<{
     modelValue?: any;
-    config: FormFileFieldConfig;
+    config: FormImageFieldConfig;
 }>();
 const emit = defineEmits(["update:modelValue"]);
 

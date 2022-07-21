@@ -3,8 +3,8 @@ div {{props.options.text}}
 </template>
 
 <script setup lang="ts">
-import type { PlainObject } from "../../../core/types/basic";
-import type { EditorTreeNode } from "../../../core/types/editor";
+import type { PlainObject } from "../../../../core/types/basic";
+import type { EditorTreeNode } from "../../../../core/types/editor";
 
 /**
  * --------------------------------------------------------

@@ -22,10 +22,10 @@ v-container(v-else, fluid)
 
 <script setup lang="ts">
 import _ from "lodash";
-import { DIContainer } from "../../core/port-manager";
-import { useEditorStore } from "../../store/editor";
-import type { WebPagesAPI } from "../../modules/web-pages/api";
-import { useEditorHistoryStore } from "../../store/editor-history";
+import { DIContainer } from "../../../core/port-manager";
+import { useEditorStore } from "../store/editor";
+import type { WebPagesAPI } from "../../../modules/web-pages/api";
+import { useEditorHistoryStore } from "../store/editor-history";
 
 /**
  * --------------------------------------------------------

@@ -6,15 +6,15 @@ v-file-input(
     :placeholder="config.name",
     :hint="config.hint",
     :persistent-hint="true",
-    :accept="config.mimetyping ? config.mimetyping.join(',') : '*'",
+    accept="audio/mpeg,audio/mp3",
     :rules="validator.rules",
     :multiple="config.multiple"
 )
 </template>
 
 <script setup lang="ts">
-import { FormValidator } from "../../../core/classes/form-validator";
-import type { FormImageFieldConfig } from "../../../core/types/editor";
+import { FormValidator } from "../../../../core/classes/form-validator";
+import type { FormAudioFieldConfig } from "../../../../core/types/editor";
 
 /**
  * --------------------------------------------------------
@@ -29,7 +29,7 @@ defineExpose({
 });
 const props = defineProps<{
     modelValue?: any;
-    config: FormImageFieldConfig;
+    config: FormAudioFieldConfig;
 }>();
 const emit = defineEmits(["update:modelValue"]);
 

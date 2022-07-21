@@ -1,10 +1,10 @@
 <template lang="pug">
-v-text-field(type="number", :label="config.name", v-model="value", :rules="validator.rules")
+v-text-field(:label="config.name", v-model="value", :rules="validator.rules")
 </template>
 
 <script setup lang="ts">
-import { FormValidator } from "../../../core/classes/form-validator";
-import type { FormNumberFieldConfig } from "../../../core/types/editor";
+import { FormValidator } from "../../../../core/classes/form-validator";
+import type { FormNumberFieldConfig } from "../../../../core/types/editor";
 
 /**
  * --------------------------------------------------------

@@ -65,11 +65,11 @@ web-page-add-dialog(
 </template>
 
 <script setup lang="ts">
-import { DIContainer } from "../../core/port-manager";
 import _ from "lodash";
-import type { WebPagesAPI } from "../../modules/web-pages/api";
-import { WebPage } from "../../modules/web-pages/domains/web-page";
-import { WebPageTree } from "../../modules/web-pages/domains/web-page-tree";
+import { DIContainer } from "../../../core/port-manager";
+import type { WebPagesAPI } from "../../../modules/web-pages/api";
+import { WebPage } from "../../../modules/web-pages/domains/web-page";
+import { WebPageTree } from "../../../modules/web-pages/domains/web-page-tree";
 /**
  * --------------------------------------------------------
  * Component setup

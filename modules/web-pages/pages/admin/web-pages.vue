@@ -16,9 +16,9 @@ v-container(fluid)
 </template>
 
 <script setup lang="ts">
-import { WebPage } from "../../modules/web-pages/domains/web-page";
-import { WebPageTree } from "../../modules/web-pages/domains/web-page-tree";
-import { WebPageService } from "../../modules/web-pages/services/web-page-service";
+import { WebPage } from "../../domains/web-page";
+import { WebPageTree } from "../../domains/web-page-tree";
+import { WebPageService } from "../../services/web-page-service";
 
 /**
  * --------------------------------------------------------

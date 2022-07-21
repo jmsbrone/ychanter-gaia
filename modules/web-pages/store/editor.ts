@@ -1,11 +1,11 @@
 import _ from "lodash";
 import { defineStore } from "pinia";
-import { DIContainer } from "../core/port-manager";
-import { CHILDREN_FIELD_NAME, ComponentSelectorOption } from "../core/types/editor";
-import { WebPagesAPI } from "../modules/web-pages/api";
-import { WebPage } from "../modules/web-pages/domains/web-page";
-import { UpdateWebPageDto } from "../modules/web-pages/dto/web-page-dto";
-import { COMPONENTS_CONFIG, EditorHelper } from "../modules/web-pages/helpers/editor-helper";
+import { DIContainer } from "../../../core/port-manager";
+import { CHILDREN_FIELD_NAME } from "../../../core/types/editor";
+import { WebPagesAPI } from "../api";
+import { WebPage } from "../domains/web-page";
+import { UpdateWebPageDto } from "../dto/web-page-dto";
+import { COMPONENTS_CONFIG, EditorHelper } from "../helpers/editor-helper";
 import { useEditorHistoryStore } from "./editor-history";
 
 export const useEditorStore = defineStore({
@@ -83,7 +83,7 @@ export const useEditorStore = defineStore({
             editorHistoryStore.pushState(this.$state);
         },
         updateBlock({ id, options }) {
-            this._blocks[id] = options;
+            this._blocks[id] = _.cloneDeep(options);
 
             const editorHistoryStore = useEditorHistoryStore();
             editorHistoryStore.pushState(this.$state);

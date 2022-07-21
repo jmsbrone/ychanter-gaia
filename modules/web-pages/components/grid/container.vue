@@ -10,10 +10,10 @@ v-container
 </template>
 
 <script setup lang="ts">
-import type { PlainObject } from "../../../core/types/basic";
-import { CHILDREN_FIELD_NAME } from "../../../core/types/editor";
-import type { EditorTreeNode } from "../../../core/types/editor";
-import { useEditorStore } from "../../../store/editor";
+import type { PlainObject } from "../../../../core/types/basic";
+import { CHILDREN_FIELD_NAME } from "../../../../core/types/editor";
+import type { EditorTreeNode } from "../../../../core/types/editor";
+import { useEditorStore } from "../../store/editor";
 
 /**
  * --------------------------------------------------------
