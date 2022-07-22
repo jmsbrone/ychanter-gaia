@@ -18,6 +18,7 @@ export default defineNuxtConfig({
     runtimeConfig: {
         public: {
             backendApi: process.env.PUBLIC_BACKEND_URL,
+            storageUrl: process.env.FILE_STORAGE_URL,
         },
         backendApi: process.env.PRIVATE_BACKEND_URL,
     },

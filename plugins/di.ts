@@ -12,6 +12,7 @@ import { WebPageService } from "../modules/web-pages/services/web-page-service";
 export default defineNuxtPlugin(() => {
     const config = useRuntimeConfig();
     const SERVER_API = process.env.server ? config.backendApi : config.public.backendApi;
+    const FILE_STORAGE_URL = config.public.storageUrl;
 
     const service = new GraphQLService(new GraphQLAxiosRequest(axios, SERVER_API + "/graphql"));
 
@@ -37,7 +38,7 @@ export default defineNuxtPlugin(() => {
                 return baseUrl + "?" + query.join("&");
             },
             audioLink(track: AudioFile) {
-                return `${SERVER_API}/${track.file.path}`;
+                return `${FILE_STORAGE_URL}/${track.file.path}`;
             },
         },
     };
