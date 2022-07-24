@@ -115,12 +115,15 @@ async function deletePage(page: WebPage) {
     confirmationDialog.confirm(
         `Deleting page: ` + page.name,
         "Are you sure you want to delete this page? This action cannot be undone.",
-        () => onDeleteConfirm
+        () => onDeleteConfirm(page)
     );
 }
 
 async function onPageAdded(page: WebPage) {
     await loadPageChildren(dialogState.activePage);
+    if (typeof dialogState.activePage.children === 'undefined') {
+        dialogState.activePage.children = [];
+    }
     dialogState.activePage.children.push(page);
 }
 
@@ -138,10 +141,12 @@ function isPageOpen(pageIndex: number) {
  * Event handlers
  * --------------------------------------------------------
  */
-async function onDeleteConfirm() {
-    await pageService.delete({ id: dialogState.activePage.id });
-    pages.value = _.remove(pages.value, (page) => page.id !== dialogState.activePage.id);
-    dialogState.activePage = null;
+async function onDeleteConfirm(pageToDelete: WebPage) {
+    await pageService.delete({ id: pageToDelete.id });
+    pages.value = _.remove(pages.value, (page) => page.id !== pageToDelete.id);
+
+    const notification = useAppNotification();
+    notification.showSuccess("Page deleted");
 }
 
 async function onExpandedPagesChange(value, oldValue) {

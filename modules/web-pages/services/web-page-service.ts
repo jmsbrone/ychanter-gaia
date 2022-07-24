@@ -36,8 +36,6 @@ export class WebPageService
                 content: "String",
                 parent: "Int",
                 system: "Boolean",
-                has_dynamic_routes: "Boolean",
-                has_indexed_filter: "Boolean",
             },
         });
     }
@@ -71,8 +69,6 @@ export class WebPageService
             "path",
             "parent",
             "system",
-            "has_dynamic_routes",
-            "has_indexed_filter",
             "content",
             "child_count",
         ];

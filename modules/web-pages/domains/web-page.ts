@@ -7,7 +7,5 @@ export class WebPage {
     depth: number;
     parent: number;
     system: boolean;
-    has_dynamic_routes: boolean;
-    has_indexed_filter: boolean;
     child_count: number;
 }

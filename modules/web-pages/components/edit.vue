@@ -51,16 +51,17 @@ const formRules = {
  * --------------------------------------------------------
  */
 
-const page = ref(await service.getById(props.id));
+const page = await service.getById(props.id);
 const formData = reactive({
-    id: page.value.id,
-    name: page.value.name,
-    alias: page.value.alias,
-    system: page.value.system,
-    path: page.value.path,
+    id: page.id,
+    name: page.name,
+    alias: page.alias,
+    system: page.system,
+    path: page.path,
+    parent: page.parent,
 });
 const form = ref(null);
-const notification = useState<AppNotification>("notification");
+const notification = useAppNotification();
 
 /**
  * --------------------------------------------------------
@@ -71,16 +72,15 @@ const notification = useState<AppNotification>("notification");
 async function savePage() {
     const validationResult = await form.value.validate();
     if (!validationResult.valid) {
-        notification.value.open = true;
-        notification.value.type = "error";
-        notification.value.text = "Please fill out the form correctly";
+        notification.showError("Please fill out the form correctly");
         return;
     }
     const result = await service.save(formData);
     if (result) {
-        notification.value.open = true;
-        notification.value.type = "success";
-        notification.value.text = "Saved";
+        notification.showSuccess("Saved");
+        _.assign(formData, _.pick(result, ["id", "name", "alias", "system", "path"]));
+    } else {
+        notification.showError("Failed to save");
     }
 }
 </script>
