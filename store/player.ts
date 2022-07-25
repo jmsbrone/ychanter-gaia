@@ -38,6 +38,8 @@ export const useMediaPlayerStore = defineStore({
 
             this.currentTrackIndex = _.findIndex(this.queue, (queueTrack) => queueTrack.file.id === track.file.id);
             this.playing = true;
+            const { $trackEvent } = useNuxtApp();
+            $trackEvent(track.file.id, "started_manual");
         },
         togglePlaying() {
             this.playing = !this.playing;

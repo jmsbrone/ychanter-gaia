@@ -1,3 +1,4 @@
+import { Mutation } from "@ychanter/graphql-client";
 import axios from "axios";
 import { AxiosRequest } from "../core/components/axios-request";
 import { GraphQLAxiosRequest } from "../core/components/graphql/graphql-axios-request";
@@ -39,6 +40,14 @@ export default defineNuxtPlugin(() => {
             },
             audioLink(track: AudioFile) {
                 return `${FILE_STORAGE_URL}/${track.file.path}`;
+            },
+            trackEvent(trackId: number, event: string) {
+                DIContainer.get<GraphQLService>("GraphQLService").get(
+                    new Mutation("trackPlaylistTrackEvent").args(["track_id", "event"]).vars({
+                        track_id: { type: "Int!", value: trackId },
+                        event: { type: "String!", value: event },
+                    })
+                );
             },
         },
     };

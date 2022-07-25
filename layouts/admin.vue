@@ -74,6 +74,8 @@ v-layout
 
 <script setup lang="ts">
 import type { Ref } from "vue";
+import type { GraphQLService } from "../core/components/graphql/graphql-service";
+import { DIContainer } from "../core/port-manager";
 import { AudioFile } from "../modules/files/types/audio-file";
 import { useMediaPlayerStore } from "../store/player";
 
@@ -85,6 +87,7 @@ import { useMediaPlayerStore } from "../store/player";
 
 const { $audioLink } = useNuxtApp();
 let playerTrackIntervalWatcherId = null;
+const graphql_service = DIContainer.get<GraphQLService>("GraphQLService");
 
 /**
  * --------------------------------------------------------
@@ -121,6 +124,7 @@ const confirmationDialogState = useConfirmationDialogState();
 const globalLoaderState = useGlobalLoaderState();
 const player = useMediaPlayerStore();
 const leftMenu = useAdminLeftMenu();
+const { $trackEvent } = useNuxtApp();
 
 const playerElement: Ref<HTMLAudioElement> = ref(null);
 const currentPlayerTrack: Ref<AudioFile> = ref(null);
@@ -197,15 +201,24 @@ function playPrevious() {
 }
 
 function playNext() {
+    if (playerElement.value.currentTime < playerElement.value.duration * 0.1) {
+        $trackEvent(player.currentTrackId, "skipped_on_start");
+    } else if (playerElement.value.currentTime < playerElement.value.duration * 0.6) {
+        $trackEvent(player.currentTrackId, "skipped_halfway");
+    }
     let newIndex = player.currentTrackIndex + 1;
     if (newIndex >= player.queue.length) {
         newIndex = 0;
     }
     player.currentTrackIndex = newIndex;
+    $trackEvent(player.currentTrackId, "started_auto");
 }
 
 function toggleTrackLooping() {
     player.loopOne = !player.loopOne;
+    if (player.loopOne) {
+        $trackEvent(player.currentTrackId, "set_looped");
+    }
 }
 
 /**
