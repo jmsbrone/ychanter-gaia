@@ -62,16 +62,14 @@ export class WebPageService
      * @inheritdoc
      */
     protected getUsedEntityFieldsOne(): string[] {
-        return [
-            "id",
-            "alias",
-            "name",
-            "path",
-            "parent",
-            "system",
-            "content",
-            "child_count",
-        ];
+        return ["id", "alias", "name", "path", "parent", "system", "content", "child_count"];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    protected getUsedEntityFieldsMany(): string[] {
+        return ["id", "alias", "name", "path", "parent", "system", "child_count"];
     }
 
     /**
@@ -89,7 +87,9 @@ export class WebPageService
      * @returns
      */
     public async getByPath(path: string): Promise<WebPage | null> {
-        return this.getOneByQuery(this.schema.getQueryOne({ path: path }, this.getUsedEntityFieldsOne()).take("content"));
+        return this.getOneByQuery(
+            this.schema.getQueryOne({ path: path }, this.getUsedEntityFieldsOne()).take("content")
+        );
     }
 
     /**

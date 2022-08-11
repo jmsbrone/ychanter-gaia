@@ -51,9 +51,7 @@ export abstract class EntityServicePrototype<
      * Returns a list of fields that will be requested for a list of entities.
      * This generally allows to exclude unnecessary list view fields.
      */
-    protected getUsedEntityFieldsMany(): string[] {
-        return this.getUsedEntityFieldsOne();
-    }
+    protected abstract getUsedEntityFieldsMany(): string[];
 
     /**
      * Creates new entity model from given data

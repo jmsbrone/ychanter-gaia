@@ -5,12 +5,10 @@ import { CreateGalleryDto, DeleteGalleryDto, UpdateGalleryDto } from "../dto/gal
 import { Gallery } from "../types/gallery";
 import { Image } from "../types/image";
 
-export class GalleryService extends EntityServicePrototype<
-    Gallery,
-    CreateGalleryDto,
-    UpdateGalleryDto,
-    DeleteGalleryDto
-> implements GalleryAPI {
+export class GalleryService
+    extends EntityServicePrototype<Gallery, CreateGalleryDto, UpdateGalleryDto, DeleteGalleryDto>
+    implements GalleryAPI
+{
     /**
      * Mutation for attaching images to a gallery
      */
@@ -65,6 +63,13 @@ export class GalleryService extends EntityServicePrototype<
      * @inheritdoc
      */
     protected getUsedEntityFieldsOne(): string[] {
+        return ["id", "name", "created_at", "updated_at", "image_count"];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    protected getUsedEntityFieldsMany(): string[] {
         return ["id", "name", "created_at", "updated_at", "image_count"];
     }
 
@@ -128,9 +133,7 @@ export class GalleryService extends EntityServicePrototype<
      */
     public async clearGallery(gallery_id: number, delete_images = false): Promise<void> {
         return await this.graphql_service.get(
-            this.schema.getMutation(this.mutation_clear_gallery, { id: gallery_id }, [
-                "id",
-            ])
+            this.schema.getMutation(this.mutation_clear_gallery, { id: gallery_id }, ["id"])
         );
     }
 }

@@ -39,6 +39,10 @@ export class UserService extends EntityServicePrototype<User, CreateUserDto, Upd
         return ["id", "isSystemAdmin", "isAdmin", "isOperator"];
     }
 
+    protected getUsedEntityFieldsMany(): string[] {
+        return ["id", "isSystemAdmin", "isAdmin", "isOperator"];
+    }
+
     protected getEntityFieldGraphQLTypes(): { [key in keyof Partial<User>]: string } {
         return {
             id: "Int!",
