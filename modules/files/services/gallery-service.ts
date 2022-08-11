@@ -64,7 +64,7 @@ export class GalleryService extends EntityServicePrototype<
     /**
      * @inheritdoc
      */
-    protected getUsedEntityFields(): string[] {
+    protected getUsedEntityFieldsOne(): string[] {
         return ["id", "name", "created_at", "updated_at", "image_count"];
     }
 

@@ -43,9 +43,17 @@ export abstract class EntityServicePrototype<
     protected abstract createSchema(): CRUDResourceSchema;
 
     /**
-     * Returns a list of fields that will be requested with entity
+     * Returns a list of fields that will be returns for a single entity.
      */
-    protected abstract getUsedEntityFields(): string[];
+    protected abstract getUsedEntityFieldsOne(): string[];
+
+    /**
+     * Returns a list of fields that will be requested for a list of entities.
+     * This generally allows to exclude unnecessary list view fields.
+     */
+    protected getUsedEntityFieldsMany(): string[] {
+        return this.getUsedEntityFieldsOne();
+    }
 
     /**
      * Creates new entity model from given data
@@ -94,7 +102,7 @@ export abstract class EntityServicePrototype<
      * @param id
      */
     public async getById(id: number): Promise<T | null> {
-        const query = this.schema.getQueryOne({ id }, this.getUsedEntityFields());
+        const query = this.schema.getQueryOne({ id }, this.getUsedEntityFieldsOne());
 
         return this.getOneByQuery(query);
     }
@@ -112,7 +120,7 @@ export abstract class EntityServicePrototype<
         if (limit > 0) {
             args["limit"] = limit;
         }
-        const query = this.schema.getQueryMany(args, this.getUsedEntityFields());
+        const query = this.schema.getQueryMany(args, this.getUsedEntityFieldsMany());
 
         return this.getListByQuery(query);
     }
@@ -123,7 +131,7 @@ export abstract class EntityServicePrototype<
      * @returns
      */
     public async save(dto: UpdateDto | CreateDto): Promise<T | null> {
-        const mutation = this.schema.getSaveMutation(dto, this.getUsedEntityFields());
+        const mutation = this.schema.getSaveMutation(dto, this.getUsedEntityFieldsOne());
 
         return await this.getOneByQuery(mutation);
     }

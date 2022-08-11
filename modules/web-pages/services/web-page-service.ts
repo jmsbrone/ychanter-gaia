@@ -61,7 +61,7 @@ export class WebPageService
     /**
      * @inheritdoc
      */
-    protected getUsedEntityFields(): string[] {
+    protected getUsedEntityFieldsOne(): string[] {
         return [
             "id",
             "alias",
@@ -80,7 +80,7 @@ export class WebPageService
      * @returns
      */
     public async getListByParent(parentId: number): Promise<WebPage[]> {
-        return this.getListByQuery(this.schema.getQueryMany({ parent: parentId }, this.getUsedEntityFields()));
+        return this.getListByQuery(this.schema.getQueryMany({ parent: parentId }, this.getUsedEntityFieldsOne()));
     }
 
     /**
@@ -89,7 +89,7 @@ export class WebPageService
      * @returns
      */
     public async getByPath(path: string): Promise<WebPage | null> {
-        return this.getOneByQuery(this.schema.getQueryOne({ path: path }, this.getUsedEntityFields()).take("content"));
+        return this.getOneByQuery(this.schema.getQueryOne({ path: path }, this.getUsedEntityFieldsOne()).take("content"));
     }
 
     /**

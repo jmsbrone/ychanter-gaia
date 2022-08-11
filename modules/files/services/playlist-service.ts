@@ -34,8 +34,13 @@ export class PlaylistService
             },
         });
     }
-    protected getUsedEntityFields(): string[] {
+
+    protected getUsedEntityFieldsOne(): string[] {
         return ["id", "name", "tracks{name,file{id,path}}"];
+    }
+
+    protected getUsedEntityFieldsMany(): string[] {
+        return ["id", "name"];
     }
 
     public attachTrackToPlaylist(playlistId: number, trackIds: number[]) {

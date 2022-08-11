@@ -35,7 +35,7 @@ export class UserService extends EntityServicePrototype<User, CreateUserDto, Upd
         super(User);
     }
 
-    protected getUsedEntityFields(): string[] {
+    protected getUsedEntityFieldsOne(): string[] {
         return ["id", "isSystemAdmin", "isAdmin", "isOperator"];
     }
 
