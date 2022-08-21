@@ -35,6 +35,13 @@ export class MdIconService implements IconServiceInterface {
         player_previous: "skip_previous",
         open_web_page: "open_in_new",
         repeat_track: "repeat_one",
+        hydra_icon: "device_hub",
+        module: "store",
+        load_versions: "cloud_sync",
+        module_installed: "task_alt",
+        module_not_installed: "radio_button_unchecked",
+        install_module: "download",
+        uninstall_module: "delete",
     };
     private missing_icon = "report_problem";
 
