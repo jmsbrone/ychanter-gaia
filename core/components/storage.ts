@@ -6,13 +6,14 @@ export class Storage {
 
     public static put(key: string, data: any) {
         this.data[key] = data;
+        localStorage.setItem(key, data);
         if (key === "jwt-auth-token") {
             Cookies.set("jwt-auth-token", data);
         }
     }
 
     public static take(key: string): any {
-        return this.data[key];
+        return this.data[key] ?? localStorage.getItem(key);
     }
 
     public static getJwtAuthorizationToken(): string {
