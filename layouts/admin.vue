@@ -14,8 +14,9 @@ v-layout
                     .text-h6(v-if="menuGroup.name") {{ menuGroup.name }}
                     template(v-for="(menuItem, index) in menuGroup.items", :key="index")
                         v-list-item(nuxt, :to="menuItem.path", exact)
-                            v-list-item-icon(:icon="$ycIcon(menuItem.icon)")
-                            v-list-item-title.pl-2.font-weight-bold {{ menuItem.title }}
+                            template(v-slot:prepend)
+                                v-icon(:icon="$ycIcon(menuItem.icon)")
+                            v-list-item-title.font-weight-bold {{ menuItem.title }}
                     v-divider
         v-main
             v-sheet.ma-2.pa-6.rounded-lg
