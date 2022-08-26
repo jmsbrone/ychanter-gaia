@@ -16,6 +16,7 @@ v-container(fluid)
 </template>
 
 <script setup lang="ts">
+import type { Ref } from "vue";
 import { WebPage } from "../../domains/web-page";
 import { WebPageTree } from "../../domains/web-page-tree";
 import { WebPageService } from "../../services/web-page-service";
@@ -45,8 +46,7 @@ const rootPage = new WebPage();
  * Refs, states and watchers setup
  * --------------------------------------------------------
  */
-
-const pages = ref((await service.getListByParent(0)) as WebPageTree[]);
+const pages: Ref<WebPageTree[]|any> = ref(await service.getListByParent(0));
 const addPageDialog = ref(false);
 
 /**
