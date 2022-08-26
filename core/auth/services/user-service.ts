@@ -23,32 +23,26 @@ export class UserService extends EntityServicePrototype<User, CreateUserDto, Upd
             },
             fieldsTypes: {
                 id: "Int",
-                isSystemAdmin: "Boolean",
-                isAdmin: "Boolean",
-                isOperator: "Boolean",
             },
         });
     }
-    protected static readonly USER_FIELDS = "id,login,isSystemAdmin,isAdmin,isOperator";
+    protected static readonly USER_FIELDS = "id,login";
 
     constructor() {
         super(User);
     }
 
     protected getUsedEntityFieldsOne(): string[] {
-        return ["id", "isSystemAdmin", "isAdmin", "isOperator"];
+        return ["id"];
     }
 
     protected getUsedEntityFieldsMany(): string[] {
-        return ["id", "isSystemAdmin", "isAdmin", "isOperator"];
+        return ["id"];
     }
 
     protected getEntityFieldGraphQLTypes(): { [key in keyof Partial<User>]: string } {
         return {
             id: "Int!",
-            isSystemAdmin: "Boolean",
-            isAdmin: "Boolean",
-            isOperator: "Boolean",
         };
     }
 }

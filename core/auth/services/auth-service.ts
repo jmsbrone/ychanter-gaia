@@ -31,7 +31,7 @@ export class AuthService {
         try {
             const service = DIContainer.get<GraphQLService>("GraphQLService");
             const query_result = await service.get(
-                new Query("current_user").take("isSystemAdmin,isAdmin,isOperator,created_at,updated_at,id")
+                new Query("current_user").take("created_at,updated_at,id")
             );
             if (query_result === null) {
                 throw new Error("Unauthorized");
