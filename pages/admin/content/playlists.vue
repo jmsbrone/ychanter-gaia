@@ -117,7 +117,7 @@ function deletePlaylist(index: number) {
     confirmationDialog.confirm(
         `Deleting playlist ${playlist.name}`,
         "Are you sure? This action cannot be undone.",
-        async () => {
+        async function () {
             if (await service.delete({ id: playlist.id })) {
                 playlists.value.splice(index, 1);
                 notification.showSuccess("Playlist deleted");

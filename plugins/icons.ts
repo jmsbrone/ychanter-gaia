@@ -1,6 +1,5 @@
 import "material-design-icons-iconfont/dist/material-design-icons.css";
 import { IconServiceInterface } from "../core/spi/icon-service-interface";
-import { MdiIconService } from "../core/providers/icons/mdi-icon-service";
 import { MdIconService } from "../core/providers/icons/md-icon-service";
 
 export default defineNuxtPlugin((nuxtApp) => {
