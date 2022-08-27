@@ -9,14 +9,16 @@ v-container(fluid)
     v-divider.my-2
     v-list(v-if="playlists")
         template(v-for="(playlist,index) in playlists", :key="playlist.id")
-            v-list-item( :title="playlist.name", :value="playlist")
+            v-list-item(
+                :title="playlist.name",
+                :value="playlist",
+                @click="$router.push(`/admin/content/playlist/${playlist.id}`)"
+            )
                 template(v-slot:prepend)
                     div.d-flex.pr-4.align-center
                         v-icon(:icon="$ycIcon('playlist')")
                 template(v-slot:append)
                     .d-flex.flex-row.bg-secondary.rounded-lg.px-1
-                        v-btn(nuxt, :to="`/admin/content/playlist/${playlist.id}`", :icon="$ycIcon('edit')", variant="plain")
-                        v-divider(vertical)
                         v-btn(@click.stop="deletePlaylist(index)", :icon="$ycIcon('delete')", variant="plain")
             v-divider.bg-secondary
 

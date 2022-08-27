@@ -1,9 +1,9 @@
 <template lang="pug">
-v-layout
+v-layout.fill-height
     client-only
         template(#fallback)
             | loading...
-        v-app-bar(color="accent")
+        v-app-bar(color="accent", hide)
             v-app-bar-nav-icon
             v-app-bar-title Admin panel
             v-spacer
@@ -18,8 +18,8 @@ v-layout
                                 v-icon(:icon="$ycIcon(menuItem.icon)")
                             v-list-item-title.font-weight-bold {{ menuItem.title }}
                     v-divider
-        v-main
-            v-sheet.ma-2.pa-6.rounded-lg
+        v-main.mb-6
+            v-sheet.ma-2.pa-6.rounded-lg.fill-height
                 NuxtPage
             v-snackbar(
                 v-model="notificationState.open",

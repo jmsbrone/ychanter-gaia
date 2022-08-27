@@ -42,6 +42,9 @@ export class MdIconService implements IconServiceInterface {
         module_not_installed: "radio_button_unchecked",
         install_module: "download",
         uninstall_module: "delete",
+        small_image_size: "photo_size_select_small",
+        normal_image_size: "photo_size_select_actual",
+        large_image_size: "photo_size_select_large",
     };
     private missing_icon = "report_problem";
 

@@ -1,5 +1,13 @@
 <template lang="pug">
-div
-    NuxtLayout
-        NuxtPage
+NuxtLayout
+    NuxtPage
 </template>
+
+<style lang="scss">
+html,
+body,
+#__nuxt {
+    height: 100% !important;
+    overflow: hidden;
+}
+</style>

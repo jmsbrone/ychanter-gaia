@@ -1,26 +1,37 @@
 <template lang="pug">
 v-progress-circular(v-if="!gallery", indeterminate)
-v-container(v-else, fluid)
-    div.d-flex.align-center.ma-4
+.d-flex.flex-column.fill-height(v-else)
+    .d-flex.flex-row.align-center.ma-4
+        v-btn.mx-2(:icon="$ycIcon('back')", nuxt, to="/admin/content/galleries", color="secondary")
         .text-h6 Editing gallery "{{ gallery.name }}" ({{ gallery.images.length }}
             v-icon(:icon="$ycIcon('photo')")
             | )
         v-spacer
+        v-btn(:icon="$ycIcon('small_image_size')", :class="{'bg-primary': selectedGridSize == 1}", @click="selectedGridSize = 1")
+        v-btn(:icon="$ycIcon('normal_image_size')", :class="{'bg-primary': selectedGridSize == 2}", @click="selectedGridSize = 2")
+        v-btn(:icon="$ycIcon('large_image_size')", :class="{'bg-primary': selectedGridSize == 3}", @click="selectedGridSize = 3")
         v-btn(@click="addImages()")
             v-icon(:icon="$ycIcon('add')")
             span Add images
         ui-form-field-image(ref="imageInput", v-show="false", :config="imageFieldConfig", name="", v-model="newImages")
     v-divider.mb-2
     v-pagination(v-model="page", v-if="pageCount > 1", :length="pageCount")
-    v-row(no-gutters)
-        v-col(cols="2", v-for="image in imagesForPage()")
-            .d-flex.flex-column.ma-1
-                v-img(v-if="image", cover, :elevation="8", :aspect-ratio="1", :src="$imageResize(image.file.id, 300)")
-                    template(v-slot:placeholder)
-                        div.d-flex.align-center.justify-center.fill-height
-                            v-progress-circular(indeterminate)
-                v-progress-circular(v-else, indeterminate)
-                v-btn(:icon="$ycIcon('delete')", @click="removeImage(image)")
+    .d-flex.flex-row.images-container.flex-wrap.fill-height(v-scroll.self="onScroll")
+        v-col(:cols="selectedGridSize", v-for="image in imagesForPage()").pa-1
+            v-hover(v-slot="{ isHovering, props }")
+                .d-flex.flex-column(v-bind="props")
+                    v-img(
+                        v-if="image",
+                        cover,
+                        :elevation="8",
+                        :aspect-ratio="1",
+                        :src="$imageResize(image.file.id, 300)"
+                    )
+                        v-btn(v-show="isHovering" :icon="$ycIcon('delete')", @click="removeImage(image)").float-right
+                        template(v-slot:placeholder)
+                            div.d-flex.align-center.justify-center.fill-height
+                                v-progress-circular(indeterminate)
+                    v-progress-circular(v-else, indeterminate)
 </template>
 
 <script setup lang="ts">
@@ -51,7 +62,7 @@ definePageMeta({
  */
 
 const service = DIContainer.get<GalleryAPI>("GalleryAPI");
-const pageSize = 24;
+const pageSize = 96;
 const imageFieldConfig = {
     type: FieldType.image,
     mimetyping: ["image/jpeg", "image/png"],
@@ -85,6 +96,7 @@ const pageCount = computed({
 });
 const imageInput = ref(null);
 const newImages = ref([]);
+const selectedGridSize = ref(2);
 
 watch(page, async (newValue) => {
     const current_offset = (newValue - 1) * pageSize;
@@ -99,7 +111,7 @@ const globalLoader = useGlobalLoader();
 watch(newImages, async (newValue) => {
     const fileService = new FileService();
     const uploadObservable = new Subject<number>();
-    globalLoader.showProgress("uploading images", newValue.length, uploadObservable);
+    globalLoader.showProgress(`Uploading ${newValue.length} images`, newValue.length, uploadObservable);
     await Promise.all(
         _.map(newValue, async (file) => {
             const uploadData = await fileService.prepareUploadForFile(file);
@@ -146,14 +158,12 @@ async function removeImage(image: Image) {
     }
 }
 
-/**
- * --------------------------------------------------------
- * Event handlers
- * --------------------------------------------------------
- */
-
-// Functions that will run in response to component events
-// that are not caused by the user directly
+function onScroll(e) {
+    const bottomScrollOffset = e.target.scrollHeight - (e.target.scrollTop + e.target.clientHeight);
+    const maxScrollOffset = e.target.scrollHeight - e.target.clientHeight;
+    const scrollPercentage = Math.round(100 * (1 - bottomScrollOffset / maxScrollOffset));
+    console.log(scrollPercentage);
+}
 
 /**
  * --------------------------------------------------------
@@ -164,3 +174,9 @@ async function removeImage(image: Image) {
 // API methods and properties for the component that
 // can be accessed from parent component
 </script>
+
+<style lang="scss" scoped>
+.images-container {
+    overflow-y: auto;
+}
+</style>
