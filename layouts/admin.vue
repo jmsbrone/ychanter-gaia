@@ -21,8 +21,14 @@ v-layout
         v-main
             v-sheet.ma-2.pa-6.rounded-lg
                 NuxtPage
-            v-snackbar(v-model="notificationState.open", location="top", timeout="3000", transition="fade-transition")
-                div.text-body-1(:class="getClassForNotification()")
+            v-snackbar(
+                v-model="notificationState.open",
+                location="top",
+                timeout="5000",
+                :color="notificationState.type",
+                elevation="24"
+            )
+                div.text-body-1
                     v-icon(:icon="$ycIcon(getIconForNotification())")
                     span.ml-2.my-auto {{ notificationState.text }}
                 template(v-slot:actions)
@@ -75,8 +81,6 @@ v-layout
 
 <script setup lang="ts">
 import type { Ref } from "vue";
-import type { GraphQLService } from "../core/components/graphql/graphql-service";
-import { DIContainer } from "../core/port-manager";
 import { AudioFile } from "../modules/files/types/audio-file";
 import { useMediaPlayerStore } from "../store/player";
 
@@ -88,7 +92,6 @@ import { useMediaPlayerStore } from "../store/player";
 
 const { $audioLink } = useNuxtApp();
 let playerTrackIntervalWatcherId = null;
-const graphql_service = DIContainer.get<GraphQLService>("GraphQLService");
 
 /**
  * --------------------------------------------------------
