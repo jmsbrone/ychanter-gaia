@@ -1,9 +1,9 @@
 <template lang="pug">
-v-layout
+v-layout.fill-height
     client-only
         template(#fallback)
             | loading...
-        v-app-bar(color="accent")
+        v-app-bar(color="accent", hide)
             v-app-bar-nav-icon
             v-app-bar-title Admin panel
             v-spacer
@@ -18,11 +18,17 @@ v-layout
                                 v-icon(:icon="$ycIcon(menuItem.icon)")
                             v-list-item-title.font-weight-bold {{ menuItem.title }}
                     v-divider
-        v-main
-            v-sheet.ma-2.pa-6.rounded-lg
+        v-main.mb-6
+            v-sheet.ma-2.pa-6.rounded-lg.fill-height
                 NuxtPage
-            v-snackbar(v-model="notificationState.open", location="top", timeout="3000", transition="fade-transition")
-                div.text-body-1(:class="getClassForNotification()")
+            v-snackbar(
+                v-model="notificationState.open",
+                location="top",
+                timeout="5000",
+                :color="notificationState.type",
+                elevation="24"
+            )
+                div.text-body-1
                     v-icon(:icon="$ycIcon(getIconForNotification())")
                     span.ml-2.my-auto {{ notificationState.text }}
                 template(v-slot:actions)
@@ -75,8 +81,6 @@ v-layout
 
 <script setup lang="ts">
 import type { Ref } from "vue";
-import type { GraphQLService } from "../core/components/graphql/graphql-service";
-import { DIContainer } from "../core/port-manager";
 import { AudioFile } from "../modules/files/types/audio-file";
 import { useMediaPlayerStore } from "../store/player";
 
@@ -88,7 +92,6 @@ import { useMediaPlayerStore } from "../store/player";
 
 const { $audioLink } = useNuxtApp();
 let playerTrackIntervalWatcherId = null;
-const graphql_service = DIContainer.get<GraphQLService>("GraphQLService");
 
 /**
  * --------------------------------------------------------

@@ -1,6 +1,6 @@
 <template lang="pug">
 v-progress-circular(v-if="!playlist", indeterminate)
-v-container(v-else, fluid)
+.d-flex.flex-column.fill-height(v-else)
     .d-flex.flex-row.align-center
         v-btn.mx-2(:icon="$ycIcon('back')", nuxt, to="/admin/content/playlists", color="secondary")
         .text-h6
@@ -13,7 +13,7 @@ v-container(v-else, fluid)
             span Add Tracks
         ui-form-field-audio(ref="tracksInput", v-show="false", :config="tracksInputFieldConfig", name="", v-model="newTracks")
     v-divider.my-2
-    v-list
+    v-list.tracks-container
         template(v-for="track in playlist.tracks",:key="track.name")
             v-list-item(
                 :value="track",
@@ -80,7 +80,7 @@ const newTracks = ref([]);
 const tracksInput = ref(null);
 
 watch(newTracks, async (newValue) => {
-    globalLoader.showBasic(`preparing ${newValue.length} tracks for upload`);
+    globalLoader.showBasic(`Preparing ${newValue.length} tracks for upload`);
 
     const fileService = new FileService();
     const uploadDtos = [];
@@ -98,7 +98,11 @@ watch(newTracks, async (newValue) => {
     }
 
     const uploadObservable = new Subject<number>();
-    globalLoader.showProgress("adding tracks to playlist", uploadStats.totalChunks, uploadObservable);
+    globalLoader.showProgress(
+        `Adding ${newValue.length} tracks to playlist`,
+        uploadStats.totalChunks,
+        uploadObservable
+    );
     for (let i = 0; i < uploadDtos.length; ++i) {
         const uploadData = uploadDtos[i];
         uploadData.upload_observer.subscribe({
@@ -135,7 +139,7 @@ function playTrack(track: AudioFile) {
 </script>
 
 <style lang="scss" scoped>
-.playlist-track-container {
-    box-shadow: 0px 0px 4px rgba(var(--v-theme-secondary-darken-2));
+.tracks-container {
+    overflow-y: auto;
 }
 </style>

@@ -3,15 +3,19 @@ v-container(fluid)
     .text-h4 Gallery manager
     v-divider
     v-list(v-if="galleries")
-        v-list-item(v-for="gallery in galleries", :key="gallery.id", :title="gallery.name", :value="gallery")
+        v-list-item(
+            v-for="gallery in galleries",
+            :key="gallery.id",
+            :title="gallery.name",
+            :value="gallery",
+            @click="$router.push(`/admin/content/gallery/${gallery.id}`)"
+        )
             template(v-slot:prepend)
                 div.d-flex.pr-4.align-center
                     .text-body-2.mr-2 {{gallery.image_count}}
                     v-icon(:icon="$ycIcon('gallery')")
             template(v-slot:append)
-                v-btn(nuxt, :to="`/admin/content/gallery/${gallery.id}`")
-                    v-icon(:icon="$ycIcon('edit')")
-                v-btn
+                v-btn(@click.stop)
                     v-icon(:icon="$ycIcon('delete')")
 </template>
 
