@@ -12,4 +12,5 @@ local_registry
 deploy
 
 modules.json
-modules
+modules/*
+!modules/ui/
