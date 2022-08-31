@@ -43,7 +43,7 @@ export default defineNuxtModule({
                     },
                     {
                         name: "admin-content-index",
-                        path: "/admin/content/index",
+                        path: "/admin/content",
                         file: pagesBasePath + "/admin/content/index.vue",
                         children: [],
                     },
