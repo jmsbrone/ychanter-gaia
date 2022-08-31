@@ -38,7 +38,7 @@ v-progress-circular(v-if="!gallery", indeterminate)
 import _ from "lodash";
 import { Subject } from "rxjs";
 import { DIContainer } from "../../../../../../core/port-manager";
-import { FormImageFieldConfig } from "../../../../../../core/types/editor";
+import type { FormImageFieldConfig } from "../../../../../../core/types/editor";
 import { FieldType } from "../../../../../../core/types/field-type-enum";
 import type { GalleryAPI } from "../../../../api";
 import { FileService } from "../../../../services/file-service";
