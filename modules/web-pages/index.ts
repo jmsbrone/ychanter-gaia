@@ -46,5 +46,6 @@ export default defineNuxtModule({
         });
         const { resolve } = createResolver(import.meta.url);
         addPlugin(resolve("./plugins/ui"));
+        addPlugin(resolve("./plugins/init"));
     },
 });
