@@ -34,7 +34,7 @@ import { Subject } from "rxjs";
 import { DIContainer } from "../../../../../../core/port-manager";
 import type { FormAudioFieldConfig } from "../../../../../../core/types/editor";
 import { FieldType } from "../../../../../../core/types/field-type-enum";
-import { useMediaPlayerStore } from "../../../../../../store/player";
+import { useMediaPlayerStore } from "../../../../stores/player";
 import type { PlaylistAPI, AudioFileAPI } from "../../../../api";
 import { FileService } from "../../../../services/file-service";
 import { AudioFile } from "../../../../types/audio-file";

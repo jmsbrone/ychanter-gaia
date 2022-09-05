@@ -1,7 +1,7 @@
 import _ from "lodash";
 import { defineStore } from "pinia";
-import { AudioFile } from "../modules/files/types/audio-file";
-import { Playlist } from "../modules/files/types/playlist";
+import { AudioFile } from "../types/audio-file";
+import { Playlist } from "../types/playlist";
 
 type StoreState = {
     playing: boolean;
@@ -34,12 +34,16 @@ export const useMediaPlayerStore = defineStore({
             if (!this.currentPlaylist || this.currentPlaylist.id !== playlist.id) {
                 this.currentPlaylist = playlist;
                 this.queue = playlist.tracks;
+                const adminFooter = useAdminFooter();
+                adminFooter.show();
             }
 
             this.currentTrackIndex = _.findIndex(this.queue, (queueTrack) => queueTrack.file.id === track.file.id);
             this.playing = true;
             const { $trackEvent } = useNuxtApp();
-            $trackEvent(track.file.id, "started_manual");
+            if ($trackEvent) {
+                $trackEvent(track.file.id, "started_manual");
+            }
         },
         togglePlaying() {
             this.playing = !this.playing;

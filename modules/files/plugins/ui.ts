@@ -8,4 +8,7 @@ export default defineNuxtPlugin((app) => {
         icon: "content",
         title: "Content",
     });
+
+    const adminFooter = useAdminFooter();
+    adminFooter.addComponent("files:footer-player");
 });
