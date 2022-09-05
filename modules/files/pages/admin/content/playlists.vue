@@ -7,7 +7,7 @@
             v-icon(:icon="$ycIcon('add')")
             span Add playlist
     v-divider.my-2
-    v-list(v-if="playlists").playlists-container
+    v-list(v-if="playlists")
         template(v-for="(playlist,index) in playlists", :key="playlist.id")
             v-list-item(
                 :title="playlist.name",
@@ -141,9 +141,3 @@ function deletePlaylist(index: number) {
  * --------------------------------------------------------
  */
 </script>
-
-<style lang="scss" scoped>
-.playlists-container {
-    border: 1px solid white;
-}
-</style>
