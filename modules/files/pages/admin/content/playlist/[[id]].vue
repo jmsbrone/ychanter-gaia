@@ -20,10 +20,9 @@ v-progress-circular(v-if="!playlist", indeterminate)
                 :class='["bg-" + (isCurrentTrack(track) ? "secondary-darken-2" : "surface")]',
                 variant="flat"
             )
-                template(v-slot:prepend)
+                v-row(no-gutters).align-center
                     v-icon(:icon="$ycIcon('playlist_track')")
-                v-row.ml-2(no-gutters).align-center
-                    v-btn.mx-2(:icon="$ycIcon(isCurrentTrack(track) && globalPlayer.playing ? 'pause_track' : 'play_track')", @click.stop="playTrack(track)", variant="plain")
+                    v-btn.mr-2(:icon="$ycIcon(isCurrentTrack(track) && globalPlayer.playing ? 'pause_track' : 'play_track')", @click.stop="playTrack(track)", variant="plain")
                     .text-body-1 {{ track.name }}
             v-divider.bg-secondary
 </template>

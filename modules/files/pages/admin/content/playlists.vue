@@ -1,5 +1,5 @@
 <template lang="pug">
-v-container(fluid)
+.d-flex.flex-column.fill-height
     .d-flex.flex-row
         .text-h4 Playlist manager
         v-spacer
@@ -7,7 +7,7 @@ v-container(fluid)
             v-icon(:icon="$ycIcon('add')")
             span Add playlist
     v-divider.my-2
-    v-list(v-if="playlists")
+    v-list(v-if="playlists").playlists-container
         template(v-for="(playlist,index) in playlists", :key="playlist.id")
             v-list-item(
                 :title="playlist.name",
@@ -26,7 +26,7 @@ v-container(fluid)
         v-card.pa-4
             v-card-title.align-center Creating new playlist
             v-card-text
-                ui-form(:config="playlistFormConfig", v-model="formData")
+                ui-form(:config="playlistFormConfig", v-model="formData", ref="playlistForm")
             v-card-actions.justify-center
                 v-btn(color="primary", @click="addPlaylist()") Save
                 v-btn(color="secondary", @click="closeDialog()") Close
@@ -87,6 +87,7 @@ const notification = useAppNotification();
 const confirmationDialog = useConfirmationDialog();
 const playlists = ref(await service.getAll());
 const addingPlaylist = ref(false);
+const playlistForm = ref(null);
 
 /**
  * --------------------------------------------------------
@@ -103,6 +104,10 @@ function closeDialog() {
 }
 
 async function addPlaylist() {
+    const validationResult = await playlistForm.value.valid();
+    if (!validationResult.valid) {
+        return;
+    }
     globalLoader.showBasic("saving changes");
     try {
         const playlist = await service.save(formData);
@@ -138,7 +143,7 @@ function deletePlaylist(index: number) {
 </script>
 
 <style lang="scss" scoped>
-.playlist-item-container {
-    box-shadow: 0px 0px 2px rgba(var(--v-theme-secondary-darken-2));
+.playlists-container {
+    border: 1px solid white;
 }
 </style>
