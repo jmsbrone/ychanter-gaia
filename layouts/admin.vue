@@ -57,12 +57,11 @@ v-layout.fill-height
                                     template(v-slot:default="{value}")
                                         strong.text-foreground-text {{ Math.round(value) }}%
                             .text-subtitle-1.mt-1 {{ globalLoaderState.text }}
-        v-footer.app-footer(app, v-show="adminFooter.isVisible()")
-            div(v-for="componentName in adminFooter.getComponents()", :is="getComponent(componentName)")
+        v-footer.app-footer(app, v-show="adminFooterState.show")
+            component(v-for="componentName in adminFooterState.components", :is="getComponent(componentName)")
 </template>
 
 <script setup lang="ts">
-import { useAdminFooter } from "../composables/states";
 import { ComponentLoaderHelper } from "../core/helpers/component-loader";
 
 /**
@@ -85,7 +84,7 @@ function getComponent(name: string) {
  * --------------------------------------------------------
  */
 
-const adminFooter = useAdminFooter();
+const adminFooterState = useAdminFooterState();
 const notificationState = useAppNotificationState();
 const confirmationDialogState = useConfirmationDialogState();
 const globalLoaderState = useGlobalLoaderState();

@@ -2,27 +2,34 @@ import _ from "lodash";
 
 export const useCurrentUser = () => useState("currentUser", () => null);
 
+export const useAdminFooterState = () =>
+    useState("adminFooter", () => {
+        return {
+            components: [],
+            show: false,
+        };
+    });
+
 export function useAdminFooter() {
-    const components = [];
-    let show = false;
+    const adminFooterState = useAdminFooterState();
 
     return {
         addComponent(name: string) {
-            if (!_.has(components, name)) {
-                components.push(name);
+            if (!_.includes(adminFooterState.value.components, name)) {
+                adminFooterState.value.components.push(name);
             }
         },
         getComponents() {
-            return components;
+            return adminFooterState.value.components;
         },
         isVisible() {
-            return show;
+            return adminFooterState.value.show;
         },
         hide() {
-            show = false;
+            adminFooterState.value.show = false;
         },
         show() {
-            show = true;
+            adminFooterState.value.show = true;
         },
     };
 }
