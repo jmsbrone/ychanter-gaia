@@ -2,12 +2,18 @@ import { GraphQLQuery } from "@ychanter/graphql-client";
 import { GraphQLClientException, GraphQLServerException } from "./exceptions";
 import { GraphQLQueryRunner } from "./types";
 
+/** Port name for graphql service */
+export const GraphQLServicePort = "GraphQLService";
 
 /**
  * Service for executing GraphQL queries
  */
 export class GraphQLService {
     public constructor(protected readonly query_runner: GraphQLQueryRunner) {}
+
+    public setEndpoint(url: string) {
+        this.query_runner.setEndpoint(url);
+    }
 
     /**
      * Executes graphql query and returns requested data

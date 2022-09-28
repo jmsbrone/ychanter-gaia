@@ -17,7 +17,6 @@ export class UserService extends EntityServicePrototype<User, CreateUserDto, Upd
             queries: {
                 user: [],
                 users: [],
-                createUser: [],
                 saveUser: [],
                 deleteUser: [],
             },
@@ -26,7 +25,6 @@ export class UserService extends EntityServicePrototype<User, CreateUserDto, Upd
             },
         });
     }
-    protected static readonly USER_FIELDS = "id,login";
 
     constructor() {
         super(User);
@@ -38,11 +36,5 @@ export class UserService extends EntityServicePrototype<User, CreateUserDto, Upd
 
     protected getUsedEntityFieldsMany(): string[] {
         return ["id"];
-    }
-
-    protected getEntityFieldGraphQLTypes(): { [key in keyof Partial<User>]: string } {
-        return {
-            id: "Int!",
-        };
     }
 }
