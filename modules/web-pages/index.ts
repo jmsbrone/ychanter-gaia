@@ -5,7 +5,7 @@ export default defineNuxtModule({
     meta: {
         name: "@ychanter/web-pages",
         compatibility: {
-            nuxt: "^3.0.0",
+            nuxt: "^3.0.0-rc.10",
         },
     },
     async setup(moduleOptions, nuxt) {

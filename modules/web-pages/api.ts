@@ -1,6 +1,8 @@
 import { WebPage } from "./domains/web-page";
 import { CreateWebPageDto, DeleteWebPageDto, UpdateWebPageDto } from "./dto/web-page-dto";
 
+export const WebPagesAPIPort = "WebPagesAPI";
+
 export interface WebPagesAPI {
     /**
      * Returns a list of sub pages for given web page
@@ -44,8 +46,4 @@ export interface WebPagesAPI {
      * @param deleteDto
      */
     delete(deleteDto: DeleteWebPageDto): Promise<boolean>;
-}
-
-export interface WebPageContentManager {
-
 }

@@ -17,9 +17,11 @@ v-container(fluid)
 
 <script setup lang="ts">
 import type { Ref } from "vue";
+import { DIContainer } from "../../../../core/port-manager";
+import type { WebPagesAPI } from "../../api";
+import { WebPagesAPIPort } from "../../api";
 import { WebPage } from "../../domains/web-page";
 import { WebPageTree } from "../../domains/web-page-tree";
-import { WebPageService } from "../../services/web-page-service";
 
 /**
  * --------------------------------------------------------
@@ -38,7 +40,7 @@ definePageMeta({
  * --------------------------------------------------------
  */
 
-const service = new WebPageService();
+const service = DIContainer.get<WebPagesAPI>(WebPagesAPIPort);
 const rootPage = new WebPage();
 
 /**
@@ -46,7 +48,7 @@ const rootPage = new WebPage();
  * Refs, states and watchers setup
  * --------------------------------------------------------
  */
-const pages: Ref<WebPageTree[]|any> = ref(await service.getListByParent(0));
+const pages: Ref<WebPageTree[] | any> = ref(await service.getListByParent(0));
 const addPageDialog = ref(false);
 
 /**
