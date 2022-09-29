@@ -1,4 +1,3 @@
-
 import { GraphQLQuery } from "@ychanter/graphql-client";
 import { RequestExecutionResult } from "../../types/requests";
 
@@ -17,4 +16,9 @@ export interface GraphQLQueryRunner {
      * @param query
      */
     executeQuery(query: GraphQLQuery): Promise<GraphQLQueryExecutionResult>;
+
+    /**
+     * Sets graphql endpoint.
+     */
+    setEndpoint(url: string): void;
 }

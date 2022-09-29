@@ -1,15 +1,18 @@
-import axios from "axios";
-import { AxiosRequest } from "../../../core/components/axios-request";
-import { GraphQLAxiosRequest } from "../../../core/components/graphql/graphql-axios-request";
-import { GraphQLService } from "../../../core/components/graphql/graphql-service";
+import { EventSystem, EventSystemPort } from "../../../core/components/events/event-system";
+import { RxjsEventSystem } from "../../../core/components/events/rxjs-event-system";
+import { SystemInfo } from "../../../core/components/system-info";
 import { DIContainer } from "../../../core/port-manager";
+import { init } from "../init";
 
-export default defineNuxtPlugin(() => {
-    const config = useRuntimeConfig();
-    const SERVER_API = process.env.server ? config.backendApi : config.public.backendApi;
+SystemInfo.isIsolated = !!process.env.INFRASTRUCTURE_MOCK;
 
-    const service = new GraphQLService(new GraphQLAxiosRequest(axios, SERVER_API + "/graphql"));
+const eventSystem: EventSystem = new RxjsEventSystem();
+DIContainer.register(EventSystemPort, eventSystem);
 
-    DIContainer.register("AxiosRequest", new AxiosRequest(axios, SERVER_API));
-    DIContainer.register("GraphQLService", service);
+export default defineNuxtPlugin((nuxtApp) => {
+    nuxtApp.hook("app:created", () => {
+        eventSystem.trigger("application", "init");
+    });
+
+    init();
 });
