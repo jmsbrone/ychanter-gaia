@@ -9,13 +9,10 @@ import { GraphQLAxiosRequest } from "../../core/components/graphql/graphql-axios
 import { GraphQLAxiosRequestMock } from "../../core/components/graphql/graphql-axios-request.mock";
 import { GraphQLService, GraphQLServicePort } from "../../core/components/graphql/graphql-service";
 import { GraphQLQueryRunner } from "../../core/components/graphql/types";
-import { SystemInfo } from "../../core/components/system-info";
 import { DIContainer } from "../../core/port-manager";
 
 export function init() {
-    SystemInfo.isIsolated = !!process.env.INFRASTRUCTURE_MOCK;
-
-    const isolatedState = useState("isolated", () => SystemInfo.isIsolated);
+    const isolatedState = useState("isolated", () => !!process.env.INFRASTRUCTURE_MOCK);
 
     let queryRunner: GraphQLQueryRunner;
     let axiosRequest: IAxiosRequest;
