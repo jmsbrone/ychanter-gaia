@@ -13,6 +13,8 @@ import { SystemInfo } from "../../core/components/system-info";
 import { DIContainer } from "../../core/port-manager";
 
 export function init() {
+    SystemInfo.isIsolated = !!process.env.INFRASTRUCTURE_MOCK;
+
     const isolatedState = useState("isolated", () => SystemInfo.isIsolated);
 
     let queryRunner: GraphQLQueryRunner;
