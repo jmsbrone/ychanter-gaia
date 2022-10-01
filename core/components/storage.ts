@@ -1,4 +1,5 @@
 import Cookies from "js-cookie";
+import { JWT_TOKEN_COOKIE } from "../constants";
 import { PlainObject } from "../types/basic";
 
 export class Storage {
@@ -7,8 +8,8 @@ export class Storage {
     public static put(key: string, data: any) {
         this.data[key] = data;
         localStorage.setItem(key, data);
-        if (key === "jwt-auth-token") {
-            Cookies.set("jwt-auth-token", data);
+        if (key === JWT_TOKEN_COOKIE) {
+            Cookies.set(JWT_TOKEN_COOKIE, data);
         }
     }
 
@@ -17,12 +18,12 @@ export class Storage {
     }
 
     public static getJwtAuthorizationToken(): string {
-        let token = this.take("jwt-auth-token");
+        let token = this.take(JWT_TOKEN_COOKIE);
         if (!token) {
-            if (!token) {
-                token = Cookies.get("jwt-auth-token");
+            token = Cookies.get(JWT_TOKEN_COOKIE);
+            if (token) {
+                this.put(JWT_TOKEN_COOKIE, token);
             }
-            this.put("jwt-auth-token", token);
         }
 
         return token;
