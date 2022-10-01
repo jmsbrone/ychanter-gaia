@@ -11,7 +11,7 @@ services:
             - "./:/app"
         ports:
             - "$SERVICE_PORT:80"
-            - "24678:24678"
+            - "24679:24679"
         expose:
             - 80
         networks:
