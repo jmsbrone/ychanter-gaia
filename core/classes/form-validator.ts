@@ -1,5 +1,10 @@
 import _ from "lodash";
-import { FormAutocompleteFieldConfig, FormFieldConfig, FormFieldValidationFunction } from "../types/editor";
+import {
+    FormAutocompleteFieldConfig,
+    FormFieldConfig,
+    FormFieldValidationFunction,
+    FormStringFieldConfig,
+} from "../types/editor";
 import { FieldType } from "../types/field-type-enum";
 
 export class FormValidator {
@@ -12,14 +17,14 @@ export class FormValidator {
         required(value: any) {
             return !!value || "Required";
         },
-        maxlength(value: string) {
+        maxlength: (value: string) => {
             if (this.object_mode && value) {
                 value = value[this.object_value_field];
             }
             return (
                 !value ||
-                (!!value && value.length < this._config.maxlength) ||
-                `Maximum ${this._config.maxlength} characters`
+                (!!value && value.length < (this._config as FormStringFieldConfig).maxlength) ||
+                `Maximum ${(this._config as FormStringFieldConfig).maxlength} characters`
             );
         },
         minlength(value: string) {

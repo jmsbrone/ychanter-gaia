@@ -26,13 +26,7 @@ const useLeftMenuState = () =>
                 },
                 modules: {
                     name: "Modules",
-                    items: [
-                        {
-                            path: "/admin/content",
-                            icon: "content",
-                            title: "Content",
-                        },
-                    ],
+                    items: [],
                 },
                 settings: {
                     items: [

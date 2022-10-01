@@ -1,4 +1,5 @@
-import { AuthService } from "../core/auth/services/auth-service";
+import { AuthAPI, AuthAPIPort } from "../core/auth/api/auth-api";
+import { DIContainer } from "../core/port-manager";
 
 export default defineNuxtRouteMiddleware(async (to, from) => {
     if (!process.server) {
@@ -6,7 +7,7 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
 
         try {
             if (!user.value) {
-                const service = new AuthService();
+                const service = DIContainer.get<AuthAPI>(AuthAPIPort);
                 user.value = await service.fetchCurrentUser();
             }
         } catch (error) {
