@@ -4,9 +4,9 @@ import { GalleryService } from "../services/gallery-service";
 import { PlaylistService } from "../services/playlist-service";
 import { AudioFile } from "../types/audio-file";
 
-export default defineNuxtPlugin((app) => {
+export default defineNuxtPlugin(() => {
     const config = useRuntimeConfig();
-    const SERVER_API = process.env.server ? config.backendApi : config.public.backendApi;
+    const SERVER_API = config.public.backendApi;
     const FILE_STORAGE_URL = config.public.storageUrl;
 
     DIContainer.register("GalleryAPI", new GalleryService());
