@@ -11,20 +11,23 @@ import { GraphQLQueryRunner, GraphQLQueryExecutionResult } from "./types";
  * Class for performing graphql requests over axios.
  */
 export class GraphQLAxiosRequest extends AxiosRequestBase implements GraphQLQueryRunner {
-    constructor(axios: Axios, protected readonly graphqlEndpoint: string) {
+    protected graphqlEndpoint: string;
+
+    constructor(axios: Axios) {
         super(axios);
     }
 
-    /**
-     * @inheritdoc
-     */
+    /** @inheritdoc */
+    setEndpoint(url: string): void {
+        this.graphqlEndpoint = url;
+    }
+
+    /** @inheritdoc */
     protected prepareUrl(): string {
         return this.graphqlEndpoint;
     }
 
-    /**
-     * @inheritdoc
-     */
+    /** @inheritdoc */
     public async executeQuery(query: GraphQLQuery): Promise<GraphQLQueryExecutionResult> {
         const result_maker = new GraphQLResultMaker();
         let result: GraphQLQueryExecutionResult = null;
