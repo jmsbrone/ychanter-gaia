@@ -13,8 +13,6 @@ import { SystemInfo } from "../../core/components/system-info";
 import { DIContainer } from "../../core/port-manager";
 
 export function init() {
-    SystemInfo.isIsolated = !!process.env.INFRASTRUCTURE_MOCK;
-
     const isolatedState = useState("isolated", () => SystemInfo.isIsolated);
 
     let queryRunner: GraphQLQueryRunner;
@@ -35,7 +33,7 @@ export function init() {
     DIContainer.register(AxiosRequestPort, axiosRequest);
 
     const config = useRuntimeConfig();
-    const SERVER_API = process.env.server ? config.backendApi : config.public.backendApi;
+    const SERVER_API = SystemInfo.isServer ? config.backendApi : config.public.backendApi;
     const graphQLEndpoing = SERVER_API + "/graphql";
 
     service.setEndpoint(graphQLEndpoing);
