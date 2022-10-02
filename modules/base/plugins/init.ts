@@ -4,10 +4,10 @@ import { SystemInfo } from "../../../core/components/system-info";
 import { DIContainer } from "../../../core/port-manager";
 import { init } from "../init";
 
-if (typeof process !== 'undefined') {
+if (typeof process !== "undefined") {
     SystemInfo.isIsolated = !!process.env.INFRASTRUCTURE_MOCK;
     SystemInfo.isProductionMode = process.env.NODE_ENV === "production";
-    SystemInfo.isServer = !!process.env.server;
+    SystemInfo.isServer = !!process.server;
 } else {
     SystemInfo.isProductionMode = true;
     SystemInfo.isServer = false;
