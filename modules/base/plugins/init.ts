@@ -4,7 +4,14 @@ import { SystemInfo } from "../../../core/components/system-info";
 import { DIContainer } from "../../../core/port-manager";
 import { init } from "../init";
 
-SystemInfo.isIsolated = !!process.env.INFRASTRUCTURE_MOCK;
+if (typeof process !== 'undefined') {
+    SystemInfo.isIsolated = !!process.env.INFRASTRUCTURE_MOCK;
+    SystemInfo.isProductionMode = process.env.NODE_ENV === "production";
+    SystemInfo.isServer = !!process.env.server;
+} else {
+    SystemInfo.isProductionMode = true;
+    SystemInfo.isServer = false;
+}
 
 const eventSystem: EventSystem = new RxjsEventSystem();
 DIContainer.register(EventSystemPort, eventSystem);
