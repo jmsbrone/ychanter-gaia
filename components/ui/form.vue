@@ -1,5 +1,5 @@
 <template lang="pug">
-v-form(ref="form")
+v-form(ref="form", @submit.prevent)
     v-row
         v-col(cols="12", v-for="(config, name) in props.config", :type="config.type", :key="name")
             component(:is="getComponentByType(config.type)", v-model="formData[name]", :config="config")
