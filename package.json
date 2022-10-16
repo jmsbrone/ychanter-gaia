@@ -10,7 +10,7 @@
     "dependencies": {
         "@casl/ability": "^5.4.4",
         "@mdi/font": "^6.9.96",
-        "@pinia/nuxt": "^0.3.0",
+        "@pinia/nuxt": "^0.4.2",
         "@ychanter/graphql-client": "file:local_registry/ychanter-graphql-client-1.4.0.tgz",
         "axios": "^0.27.2",
         "js-cookie": "^3.0.1",

@@ -1,4 +1,3 @@
-import { defineNuxtConfig } from "nuxt";
 import dynamicImport from "vite-plugin-dynamic-import";
 import modules from "./modules.json";
 
