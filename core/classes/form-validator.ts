@@ -36,7 +36,7 @@ export class FormValidator {
             return value >= this._config.min || `Number must be greater or equal to ${this._config.min}`;
         },
         max(value: number) {
-            return value <= this._config.max || `Number must be less or equal to ${this._config.min}`;
+            return value <= this._config.max || `Number must be less or equal to ${this._config.max}`;
         },
         mimetyping(value: File | File[]) {
             if (!value || !this._config.mimetyping) {

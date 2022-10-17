@@ -4,5 +4,8 @@
     "compilerOptions": {
         "types": ["@pinia/nuxt", "jest"],
         "resolveJsonModule": true
+    },
+    "vueCompilerOptions": {
+        "plugins": ["@volar/vue-language-plugin-pug"]
     }
 }
