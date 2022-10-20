@@ -10,4 +10,7 @@ body,
     height: 100% !important;
     overflow: hidden;
 }
+#gtx-trans {
+    display: none;
+}
 </style>
