@@ -17,7 +17,6 @@ services:
         networks:
             - ychanter
         command: "npm run dev"
-        restart: "unless-stopped"
 
 networks:
     ychanter:
