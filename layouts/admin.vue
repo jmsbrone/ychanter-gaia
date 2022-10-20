@@ -5,8 +5,8 @@ v-layout.fill-height
             | loading...
         v-app-bar(color="accent", hide)
             v-app-bar-nav-icon
-            v-app-bar-title Admin panel
-            v-spacer
+            v-app-bar-title(:class="{'text-center': $vuetify.display.mobile}") Admin panel
+            v-spacer(v-if="!$vuetify.display.mobile")
             v-btn(variant="text", :icon="$ycIcon('dots-vertical')")
         v-navigation-drawer
             v-list(nav, color="secondary")
@@ -19,7 +19,7 @@ v-layout.fill-height
                             v-list-item-title.font-weight-bold {{ menuItem.title }}
                     v-divider
         v-main.mb-6
-            v-sheet.ma-2.pa-6.rounded-lg.fill-height
+            v-sheet.ma-2.pa-md-6.py-1.rounded-lg.fill-height
                 NuxtPage
             v-snackbar(
                 v-model="notificationState.open",
