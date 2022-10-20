@@ -1,7 +1,8 @@
 <template lang="pug">
 v-progress-circular(v-if="!page", indeterminate)
-v-container(v-else, fluid)
-    v-row(no-gutters).align-center
+
+.d-flex.flex-column.fill-height(v-else)
+    .d-flex.flex-row.align-center(:class="{'justify-center': $vuetify.display.mobile}")
         v-btn(@click="savePage()", color="primary")
             v-icon(:icon="$ycIcon('save')")
             span.ml-2 Save
@@ -13,11 +14,16 @@ v-container(v-else, fluid)
             v-btn(@click="redo()", color="secondary", :disabled="!editorHistoryStore.nextState")
                 v-icon(:icon="$ycIcon('redo')")
             v-tooltip(activator="parent", location="bottom") Re-apply changes
-        v-switch.ml-2(color="secondary", v-model="editorStore.edit_border_on", hide-details, label="Borders")
-    v-container.mt-4.page-content-container(fluid)
-        template(v-for="(componentOptions, index) in editorStore.pageBlocks", :key="index")
-            web-page-editor-component-block(:editor-block="componentOptions")
-        web-page-component-selector(@selected="onComponentSelected($event)")
+        v-col(cols="auto")
+            v-switch.ml-2(color="secondary", v-model="editorStore.edit_border_on", hide-details, label="Borders")
+        v-col(cols="auto")
+            v-switch.ml-2(color="secondary", v-model="editorStore.show_child_add_buttons", hide-details, label="Display add buttons")
+
+    .d-flex.my-4.pa-2.page-content-container
+        div.page-content-wrapper
+            template(v-for="(componentOptions, index) in editorStore.pageBlocks", :key="index")
+                web-page-editor-component-block(:editor-block="componentOptions")
+            web-page-component-selector(v-if="editorStore.show_child_add_buttons", @selected="onComponentSelected($event)")
 </template>
 
 <script setup lang="ts">
@@ -134,7 +140,13 @@ service.getById(props.pageId).then(
 
 <style lang="scss" scoped>
 .page-content-container {
-    border: 1px dashed white;
+    border: 2px solid rgba(var(--v-theme-primary));
     border-radius: 5px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: auto;
+}
+.page-content-wrapper {
+    width: 100%;
 }
 </style>

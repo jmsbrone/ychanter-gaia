@@ -9,10 +9,10 @@ export default defineNuxtPlugin(() => {
     const eventSystem = DIContainer.get<EventSystem>(EventSystemPort);
     eventSystem.subscribe("application", "init", () => {
         let isolated: boolean;
-        if (process.server) {
-            isolated = SystemInfo.isIsolated;
-        } else {
+        if (!SystemInfo.isServer) {
             isolated = useState("isolated").value as boolean;
+        } else {
+            isolated = SystemInfo.isIsolated;
         }
         if (isolated) {
             DIContainer.register(WebPagesAPIPort, new WebPageServiceMock());

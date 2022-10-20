@@ -34,6 +34,8 @@ export const useEditorStore = defineStore({
             show_add_button: true,
             // Last generated component id
             last_generated_component_id: null,
+            // Toggling display of buttons to add children in components
+            show_child_add_buttons: true,
         };
 
         return initialState;

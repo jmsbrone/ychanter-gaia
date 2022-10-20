@@ -1,6 +1,6 @@
 <template lang="pug">
-v-container(fluid)
-    v-row(no-gutters)
+v-container(fluid).fill-height
+    v-row(no-gutters, :class="{'justify-center': $vuetify.display.mobile}")
         .text-h4 Web page designer
     v-divider
     web-page-designer(:pageId="pageId")

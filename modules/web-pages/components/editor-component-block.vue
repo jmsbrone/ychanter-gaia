@@ -1,11 +1,18 @@
 <template lang="pug">
-v-hover(v-slot="{ isHovering, props }")
-    div.component-container(:class="{'editor_borders_on': editorStore.edit_border_on}", v-bind="props")
-        component(:is="component", :options="options", :editorBlock="editorBlock")
-        .controls-container.d-flex.flex-row.align-center.justify-center.bg-secondary(v-if="isHovering")
-            v-btn(v-if="hasOptions", @click="editComponentOptions()", :icon="$ycIcon('edit')", variant="plain")
-            v-divider(vertical)
-            v-btn(@click="deleteComponent()", :icon="$ycIcon('delete')", variant="plain")
+v-row.controls-container(
+    no-gutters,
+    v-if="selected",
+).justify-center
+    v-btn(v-if="hasOptions", @click="editComponentOptions()", :icon="$ycIcon('edit')", variant="plain")
+    v-divider(vertical)
+    v-btn(@click="deleteComponent()", :icon="$ycIcon('delete')", variant="plain")
+component(
+    :is="component",
+    :class="{'editor_borders_on': editorStore.edit_border_on, 'selected': selected}",
+    :options="options",
+    :editorBlock="editorBlock",
+    @click.stop="selected = !selected"
+).component-container
 
 v-dialog(v-if="optionsDialogOpen", :modelValue="true")
     v-container
@@ -52,7 +59,7 @@ const hasOptions = EditorHelper.hasOptions(props.editorBlock.name);
 const optionsFormData = {};
 let component = null;
 try {
-    component = ComponentLoaderHelper.getComponent(props.editorBlock.name);
+    component = ComponentLoaderHelper.getComponent(props.editorBlock.name + '-editable');
 } catch (error) {
     notification.showError(error);
     console.log(error);
@@ -81,6 +88,7 @@ function editOptions() {
 
 const options = ref(initialOptions);
 const optionsDialogOpen = ref(false);
+const selected = ref(false);
 
 /**
  * --------------------------------------------------------
@@ -120,29 +128,31 @@ onBeforeMount(() => {
     }
     editorStore.$subscribe((mutation, state) => {
         options.value = editorStore.blockOptions(props.editorBlock.id);
-        console.log(options.value);
     });
 });
 </script>
 
 <style lang="scss" scoped>
 .controls-container {
-    position: absolute;
-    z-index: 900;
-    left: 50%;
-    top: 0px;
-    width: auto;
     opacity: 0.9;
-    border-radius: 10px;
-    display: block;
-}
-
-.component-container {
-    position: relative;
 }
 
 .editor_borders_on {
-    border: 1px dashed white;
+    border: 2px dashed rgba(var(--v-theme-accent));
     border-radius: 10px;
+}
+
+.selected {
+    border: 5px solid rgba(var(--v-theme-secondary));
+    border-radius: 5px;
+}
+
+.component-container {
+    &:hover {
+        background-color: rgba(var(--v-theme-secondary-darken-2));
+        cursor: pointer;
+    }
+    min-height: 20px;
+    min-width: 20px;
 }
 </style>

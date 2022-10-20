@@ -24,7 +24,7 @@ export class WebPageServiceMock implements WebPagesAPI {
             id: 1,
             alias: "main-page",
             child_count: 0,
-            content: "{}",
+            content: JSON.stringify([]),
             depth: 0,
             name: "Home",
             parent: null,

@@ -1,5 +1,5 @@
 <template lang="pug">
-div {{props.options.text}}
+div(v-html="props.options.text")
 </template>
 
 <script setup lang="ts">

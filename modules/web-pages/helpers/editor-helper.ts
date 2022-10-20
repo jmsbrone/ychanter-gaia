@@ -13,21 +13,34 @@ import {
 import { FieldType } from "../../../core/types/field-type-enum";
 import { ContainerComponentConfig } from "../component_configs/container";
 import { DummyComponentConfig } from "../component_configs/dummy";
+import { GridColumnComponentConfig } from "../component_configs/grid-column";
+import { GridRowComponentConfig } from "../component_configs/row";
 import { ContentTextComponentConfig } from "../component_configs/text";
+import { TiptapComponentConfig } from "../component_configs/tiptap";
 
 /**
  * @constant BLOCK_ID_LENGTH Length of string with generated component block id
  */
 const BLOCK_ID_LENGTH = 8;
 
+const componentConfigs = [
+    ContentTextComponentConfig,
+    DummyComponentConfig,
+    ContainerComponentConfig,
+    GridColumnComponentConfig,
+    GridRowComponentConfig,
+    TiptapComponentConfig,
+];
+const componentConfigsByName = {};
+
+_.each(componentConfigs, (config) => {
+    componentConfigsByName[config.name] = config;
+});
+
 /**
  * @constant COMPONENTS_CONFIG All available components
  */
-export const COMPONENTS_CONFIG: { [key: string]: ComponentConfig } = {
-    [ContentTextComponentConfig.name]: ContentTextComponentConfig,
-    [DummyComponentConfig.name]: DummyComponentConfig,
-    [ContainerComponentConfig.name]: ContainerComponentConfig,
-};
+export const COMPONENTS_CONFIG: { [key: string]: ComponentConfig } = componentConfigsByName;
 
 /**
  * @type Object containing tree note information after it's processed
